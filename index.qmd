@@ -1,0 +1,37 @@
+---
+title: "macOSで環境構築"
+author: "宮森祥行"
+date: last-modified
+format:
+  html:
+    code-copy: true
+    date-format: "YYYY年M月D日"
+    toc: true
+    embed-resources: true
+---
+
+[GitHub](https://github.com/yoshiyuki-miyamori/MacBookEnv)
+
+# 目次
+
+## 2025年8月
+
+- [macOSでVSCodeの環境構築](1_vscode.html)
+  * [VSCodeでのTeXの使い方](2_usage.html)
+- [VSCodeでプログラミングの環境構築](3_programming.html)
+- [最近のAI雑談](4_generative_ai.html)
+
+
+# Webサイトの作り方
+
+　GitHubを使って.htmlファイルをウェブサイトとして公開することができる．
+
+　まず必ずindex.htmlというファイルを作る必要があるが，Quartoを使う場合は，index.qmdというファイルを`format: html`で作れば良い．名前は必ず`index`でなければならない．一つならこれだけで良いが，複数ある場合は，index.htmlをトップページとしてそこに他のリンクを貼る形になる．
+
+　(index.html含む)公開したい.htmlファイルらをpublic repositoryにpushした後，
+GitHubのサイトでそのリポジトリを開き，そのリポジトリ内のSettingsをクリックし，左のメニューからPagesを選ぶ．
+Branchの部分がNoneになっていると思うので，それをmainに変えてからSaveをクリックし，少ししてからブラウザの更新ボタンを押すと，`https://ユーザ名.github.io/リポジトリ名/`というURLが表示され，公開完了である．
+
+
+
+

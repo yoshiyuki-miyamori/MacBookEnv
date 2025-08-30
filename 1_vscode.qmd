@@ -1,0 +1,360 @@
+---
+title: "macOSでVSCodeの環境構築"
+author: "宮森祥行"
+date: last-modified
+format:
+  html:
+    code-copy: true
+    date-format: "YYYY年M月D日"
+    toc: true
+    embed-resources: true
+bibliography: references.bib
+---
+```{=html}
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+```
+
+　私が環境構築をした時のメモを大幅に整理して備忘録としてまとめたものであるが，単なる環境構築に留まらずパソコンの理解を少し深めることも目指している．わからないところは私かAIに聞いてほしい．Homebrewやnanoを多用しているのでこれはmacOS専用の話である．
+コードの横のクリップボードアイコンをクリックするとコピーできる．
+
+# Shell
+
+　アプリにはいろいろ種類があるわけだが，基本的なものにCLI(command line interface)[^1]とGUI(graphical user interface)がある．コマンドを打ち込むことで操作するアプリがCLI，アイコンやボタンを使って操作できるアプリがGUIであり，普通に暮らしていて使うほとんど全てのアプリはGUIである．GUIのメリットはとっつきやすさ，わかりやすさである．一方で他の人に操作を説明しようとすると案外大変であり，画像や動画が欲しくなる．しかしCLIであればコマンドをコピペして貰えば良いので，その意味では簡単である．また，マウスの操作が要らず，キーボードから手を離す必要がないのもラクである．他にもCLIのメリットは色々あり，今なお最前線に残っている．ターミナルはCLIを動かすアプリである．
+
+[^1]: CUI(character user interface)というのは和製英語である．
+
+　私はパソコンに弱いのでターミナルを嫌厭していたが，環境構築する上で避けて通れずshellを使ってみると，意外と簡単で便利で面白かったので，最初に今回使うshellの操作をまとめて書いておこうと思う．
+
+　ざっくり言うと，コンピュータのハードウェアとソフトウェアの仲立ちをしてくれるのがOS(operating system)であり，OSとuserの仲立ちをしてくれるのがshellである．要するに，OSは全てのソフトウェアに繋がっているため，我々は(コマンドさえ知っていれば)ターミナルからshellを通じて全てのソフトウェアにアクセスすることができる．コンピュータの受付のようなイメージ．[^2]
+
+[^2]: IDEの枠組みに囚われず自由自在に動き回れるCLIのAIエージェントが最近アツかったりする．
+
+　さて，MacBookのOSはmacOSであり，shellはzsh(のはず)である．[^3]
+ターミナルを起動すると，上にzsh(あるいはbash)と書いてある．zshもbashもshはshellのことであり，zshはズィーシェルと読む．zshはbashの改良版だと思って良い．
+
+[^3]: MacBookはdefaultのshellとして昔はbashを採用していたが，現在はzshなので皆さんもzshのはず．
+
+　ターミナルを直接起動すると，1行目にセキュリティ対策でLast loginが書いてある．
+
+　次の行に`ユーザー名@ホスト名 カレントディレクトリ % `が書いてある．カレントディレクトリの部分は`~`になっていると思うが，これは`/Users/ユーザー名`というパスを略記したものであり，ホームディレクトリと呼ばれる．ディレクトリ(directory)はフォルダのことで，場所のようなイメージ．だからカレントディレクトリ(current directory)というのは現在作業している場所という感じ．`%` はzshのプロンプト記号(コマンドを入力する合図)である．(bashのプロンプト記号は `$` であり，コードの前に `$` が書かれていることがあるので，覚えておいても良い．)
+
+　つまり例えば私の例`miyamoriyoshiyuki@Mac-4 ~ %`だと，`miyamoriyoshiyuki`というアカウントが`Mac-4`というコンピュータのホームディレクトリにいて，(zshの)コマンドの指示を待ってるという状況を表している．
+
+　試しに
+```zsh
+hostname
+```
+とターミナルに流してみよう．`ホスト名.local`と返ってきたはずである．パソコンの環境を(ウェブやクラウドなどに対して)ローカルと呼ぶことがよくある．
+
+　次に
+```zsh
+whoami
+```
+と流してみよう(Who am I?)．`ユーザー名`と返ってきたはずである．まとめて流したいときは例えば
+```zsh
+hostname; whoami
+```
+とセミコロンで区切れば良い．[^4]
+
+[^4]: 他にも細かくオプションは指定できるので気になったら調べてほしい．
+
+　今回は使わないが，カレントディレクトリを変えたいときは，`cd パス`を流せば良い．cdはchange directoryである．例えば
+```zsh
+cd ~/desktop
+```
+と流してみよう．`ユーザー名@ホスト名 desktop % `に変わったはずである．変えてもらったところ悪いが`cd ~`でホームディレクトリに戻しておこう．
+
+::: callout-tip
+　実は`cd`だけでもホームディレクトリに戻れる．また，`cd カレントディレクトリ/目的のディレクトリ`の形の時は`cd 目的のディレクトリ`に省略できる．だからさっきの`cd ~/desktop`は実は`cd desktop`でも良かった．
+:::
+
+　MacBookにはnanoというターミナル上で動くテキストエディタがdefaultでinstallされている．nanoを使うとGUIに近い感覚で作業でき，コマンドよりは煩雑だがわかりやすいのでこのpdfでは積極的に使うことにするが，慣れてくるとnanoを使うよりコマンドの方が便利に感じてくると思う．
+
+　nanoでファイルを開きたいときは`nano ファイルのあるディレクトリ/ファイル名`でファイルを開くことができる．ファイルのあるディレクトリがカレントディレクトリのときはファイル名だけで良いが，ここでは念の為ディレクトリまで書くことにする．(存在しないファイルを開こうとすると，それを作成してから開いてくれる．)nanoは`control` + `X`で閉じれる．書き換えた場合は保存するか聞かれるのでYからのEnterで保存する．yesのYである．
+
+::: callout-tip
+　今回よく出てくるが，ファイル名/フォルダ名がなく，` . `で始まるものは隠しファイル/隠しフォルダであり，通常は見えない(`shift` + `command` + `.`で表示することができ，もう一度実行すると再び隠れる)が，ターミナル上では気にしなくて良い．重要なファイル/フォルダは間違って消されないように隠されている．
+:::
+
+　echoは表示させるコマンドで，例えば
+```zsh
+echo 'Hello, zsh'
+```
+と流すと`Hello, zsh`と返ってくる．
+
+　`$CODE`や`${CODE}`でCODEに仕舞われている中身を展開でき，`$(CODE)`でCODEを実行した時の結果を展開できる．このpdfではコードを読んだ時に意味が理解できればいいのでこれ以上深掘りしない．例えば
+```zsh
+echo $PATH
+```
+でPATHの中身を確認できる．さてここで，
+```zsh
+a="echo 'Hello, zsh'"
+```
+という命令を`a`に仕舞い，これを呼び出して実行して`Hello, zsh`と表示させたいとする．安直に`a`を実行すると`zsh: command not found: a`とエラーになる．では`$a`ならどうか．実はこれも`zsh: command not found: echo 'Hello, zsh'`とエラーになる．我々が望むのは`a`の中身を`echo 'Hello, zsh'`と展開した本来の形で評価してから実行してもらうことである．それを叶えるのが`eval`というコマンドである．
+```zsh
+eval $a
+```
+を実行すれば，晴れて`Hello, zsh`と表示される．evalはevaluationである．初見だと`eval`を書く意味が分かりにくいと思うが，格納した命令を実行しようとしたりすると必要になる．
+
+　他にも`echo '内容' >> ファイルのあるディレクトリ/ファイル`でファイルに書き込むことができる．これは`nano ファイルのあるディレクトリ/ファイル`でファイルを開いて直接書き込むのと同じである．`>>`は追記だが，`>`は上書きなので注意．
+
+# Homebrew
+
+　HomebrewとはmacOSのパッケージ管理システムである． CLIだが簡単なので怖がる必要はない．Homebrewのパスを通しておけばHomebrewでinstallしたものはいちいちPATHを通す必要がないし，uninstallもupgradeもコマンド一つでできて最高である．基本的にはHomebrewを使っておけば間違いない．[^5]
+
+[^5]: ただし前のバージョンに戻すことは基本的にできないため，プログラミング言語自体のインストールなどは向いていない．
+
+::: callout-tip
+　Homebrewは元はCLIアプリの管理システムであり，後にHomebrewとは別のGUIの管理システムHomebrew caskができた．これらは別々のシステムであったため，Homebrewを呼び出すコマンドは`brew`，Homebrew caskは`brew cask`であり，CLIとGUIを区別する必要があった．しかしこれは面倒なので次第に統合され，今はHomebrewでCLIもGUIも扱うことができ，コマンドは気にせずbrewで良い．Homebrewは賢いのでそのアプリがCLIかGUIかを自動で判断してくれるが，CLIアプリにも同じ名前のものがあった場合に備えてGUIアプリの名前の前には`--cask`とつけるのが安全である．この記事でも`--cask`はつけることにする．
+:::
+
+　さて，インストールがまだの場合はHomebrewのホームページにあるコマンドをコピーしてターミナルにペーストしてinstallしよう．(Homebrewのおかげで以降こういう`curl`を使ったコードを書く必要はないため，これはおまじないで良い．)途中passcodeを打ったりしないといけないがその辺は今後書かないので，ターミナルの指示に従って適当にやってほしい(打ったpasscodeは見えないがちゃんと打てている)．インストール後にNext stepsが出るので指示に従ってコピペしてPATHを通そう．親切にコピペで済むようにしてくれているが，ここは少し理解しておいた方が良いと思うので説明する．自分の時の指示のメモをとってなかったので正確にはわからないが，おそらく
+```zsh
+echo 'eval $(/opt/homebrew/bin/brew shellenv)' >> ~/.zprofile
+eval $(/opt/homebrew/bin/brew shellenv)
+```
+のようなコードだと思う．さて，`eval $(/opt/homebrew/bin/brew shellenv)`をひと塊として全体の構造を見ると，
+```zsh
+echo 'CODE' >> ~/.zprofile
+CODE
+```
+となっている．一行目はコードをzshの設定ファイル.zprofileに書き込んでいる．.zprifileはzshへのログイン時に読み込まれるので，この設定を反映させるには一度ターミナルを閉じて再ログインする必要がある．そうせずとも今すぐに反映させるため，親切に2行目に直接そのコード実行するように書いてくれている．`nano ~/.zprofile`で書かれていることを確認してみよう．さて，そのコード`eval $(/opt/homebrew/bin/brew shellenv)`を見てみると，`eval $(CODE)`の形をしている．つまりコマンド`/opt/homebrew/bin/brew shellenv`を実行した時の出力を実行せよという命令である．shellenvはshell environmentである．
+最近のMacBookの場合には通常次のような出力になる．
+```zsh
+export HOMEBREW_PREFIX="/opt/homebrew";
+export HOMEBREW_CELLAR="/opt/homebrew/Cellar";
+export HOMEBREW_REPOSITORY="/opt/homebrew";
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH";
+export MANPATH="/opt/homebrew/share/man:$MANPATH";
+export INFOPATH="/opt/homebrew/share/info:$INFOPATH";
+```
+つまり，既存のパス`$PATH`の前に，`/opt/homebrew/sbin`と`/opt/homebrew/bin`
+というhomebrewがinstallしたものが仕舞われているディレクトリを追加して，
+それを新たな`PATH`として代入している．
+(既存のPATHの「前」に追加することで，MacbookにdefaultでinstallされているものよりもHomebrewでinstallした新しいものを使ってくれる．)
+
+::: callout-note
+　例えば[@shellenv]でshellenvの中身をみると，場合分けが非常に多くてややこしいのだが，[^6]
+```zsh
+export PATH="${HOMEBREW_PREFIX}/bin:${HOMEBREW_PREFIX}/sbin${PATH+:$PATH}"
+```
+という部分がメインであり，`${HOMEBREW_PREFIX}`に`/opt/homebrew`を代入したり最後のテクニカルな処理を簡略化したりすると，これは大体
+```zsh
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+```
+というコードになっている．
+
+[^6]: shellの節で`$(CODE)`の使い道なんてあるのかと疑問に思われたかもしれないが，例えばここのようにそれぞれの環境に合わせて命令を場合分けしたいときに役立つ．
+:::
+
+　実際
+```zsh
+echo $PATH
+```
+でPATHの中身を確認してみれば，先頭に`/opt/homebrew/bin:/opt/homebrew/sbin:`が追加されているはずである．
+
+　インストール済の場合は
+```zsh
+brew update
+```
+を流しupdateしておこう．
+
+# VSCode
+
+　VSCode(Visual Studio Code)とは高機能なコードエディター，いわゆるIDE (Integrated Development Environment; 統合開発環境)である．メリットは皆さん承知だと思う．ちなみに最近はCursorやWindsurfといった初めからAIが搭載されているIDEも人気があるが，有料である．[^7]
+
+[^7]: Cursorは2025年5月7日にproを学生は1年無料にしてくれたのだが，なぜか2025年5月10日にはその対象メールアドレスから.ac.jpがはずされてしまい，学生無料キャンペーンは事実上3日間で終了してしまった．
+
+　VSCodeはCopilot Proが学生無料だし，Microsoftのものなので中長期的には覇権を取ると予想されている．(MicrosoftがGitHubを持っていることが大きい．)
+
+　閑話休題．インストールしていない場合は
+```zsh
+brew install --cask visual-studio-code
+```
+を流してinstallしよう．
+
+　インストール済の場合は
+```zsh
+brew upgrade --cask visual-studio-code
+```
+を流しVSCodeをupdateしておこう．
+
+　日本語にしたいときは，左のサイドバーのextensionsから`Japanese Language Pack for Visual Studio Code`をinstallしよう．その後VSCode上部の検索窓で`> Configure Display Language`から変更できる．configureは設定するという意味で，configの形でファイル名によく登場する．
+
+# Git
+
+　Gitとはローカルなバージョン管理システムである．GitはCLIなので若干とっつきづらいが，VSCodeを使うと(主要な機能を)あたかもGUIのように操作できる．
+
+　インストールがまだの場合は
+```zsh
+brew install git
+```
+をターミナルに流してinstallしよう．
+
+　インストール済の場合は
+```zsh
+brew update git
+```
+をターミナルに流しhomebrewをupdateしておこう．
+
+　次にGitの設定が書いてある.gitconfigというファイル(ホームディレクトリにある)をnanoで開こう．
+
+```zsh
+nano ~/.gitconfig
+```
+
+　まずはユーザー名とメールアドレスを登録する必要がある．まだの場合は書き込もう．ユーザー名はGitHubのものと合わせておきたいが，GitHub Copilot Proを学生特典として無料で使うにはGitHubのユーザー名はフルネームにしないといけないので，`yoshiyuki-miyamori`のように書いておこう．
+```zsh
+[user]
+name = “ユーザー名”
+email = “メールアドレス”
+```
+
+　使い方のpdfを見ればわかるが，Gitはtreeのような形でバージョン管理をしており，最初のbranchの名前がdefaultだとmasterになっている．しかしこれはmaster/slaveを連想させるので良くないとのことで，近年はmainとするのが普通らしい．こだわりがなければ変えておこう．
+```zsh
+[init]
+defaultBranch = main
+```
+
+　次にGitのeditorとしてVSCodeを使うように設定する．codeはVSCodeのことである．また二つ目の設定はファイル名に日本語を使えるようにするための設定である．
+```zsh
+[core]
+editor = code --wait
+quotepath = false
+```
+
+　枝分かれされたbranchをmergeするときにconflictが起きた場合，解決するtoolとしてVSCodeを使うように設定しておく．(ただしmergeは使い方のpdfでは説明しない．)
+```zsh
+[merge]
+tool = code --wait \"$MERGED\"
+```
+
+　書き終わったらnanoを閉じる．
+
+　最後にVSCodeのサイドバーの拡張機能(extensions)からGit Graphをinstallしておこう．
+
+# GitHub
+
+　GitHubとはGitの共有システムである. 共有の予定がなくてもクラウドとして使えるので，これも設定しておこう．
+
+　まだの人はGitHubはホームページからサインアップする．Gitのところで言ったように，`yoshiyuki-miyamori`の形で登録しておこう．
+
+　GitとGitHubが通信する方法としてsshとhttpsの二つがある．sshとはsecure shellのことである．sshは最初の設定が少し面倒だが，絶対にsshの方が良い(安全だし使う時はラク)ので，最初にやってしまおう．
+
+　まずはed25519というデジタル署名アルゴリズムを利用し[^8]
+秘密鍵（id_ed25519）と公開鍵（id_ed25519.pub）を作成する．pubはpublicである．
+```zsh
+ssh-keygen -t ed25519
+```
+genはgenerateである．-tはtypeのことで`-t ed25519`でひとかたまり．
+
+[^8]: 昔の記事[@github]を参照したので今はもっと良いアルゴリズムがあるかもしれない．
+
+　次にGitHubに公開鍵を登録する．GitHubのページの右上の自分のアイコンをクリックし，Settingsから`SSH and GPG keys`を選択し，`New SSH key`という緑ボタンをクリックすると，Keyという部分があるのでここに公開鍵を貼り付ければ良い．nanoで開いて(最初のssh-ed25519も含めて)コピペしよう．
+```zsh
+nano ~/.ssh/id_ed25519.pub
+```
+titleはなんでも良い．keytypeはそのまま．
+
+　最後にGitとGitHubを秘密鍵で繋げる．まずnanoで.sshのconfigを開く．
+```zsh
+nano ~/.ssh/config
+```
+そこに
+```zsh
+Host github.com
+  HostName github.com
+  IdentityFile ~/.ssh/id_ed25519
+  User git
+```
+を書き込んでnanoを閉じる．内容は見ての通りである．
+
+　次にmacOSのパスワード管理アプリkeychainに秘密鍵を渡すことで，以降自動で処理してもらえる．
+```zsh
+ssh-add --apple-use-keychain ~/.ssh/id_ed25519
+```
+
+　最後に上手く接続できたか確認しておこう．
+```zsh
+ssh -T github.com
+```
+を実行して`yes`と答え，`Hi ユーザー名! You've successfully authenticated, but GitHub does not provide shell access.`と表示されれば成功である．-Tはおまじないで良い．
+
+# Copilot
+
+　拡張機能からGitHub CopilotとGitHub Copilot Chatをinstallしておこう．GitHub Copilotはコード補完をしてくれ，GitHub Copilot Chatはチャットで相談に乗ってくれる．
+
+　学生はProを無料で使えるので登録しよう．GitHubのページの右上の自分のアイコンをクリックし，Settingsから`Billing and licensing`を展開し，`Education benefits`を選択する．後は大学のメールアドレスを使って指示に従って登録しよう．少々面倒だし，反映されるのにも数日かかるので注意．
+
+# TeX
+
+　私は大学1年生の時にmactexをinstallして以来そのままだったし，一括でhomebrewに管理させたかったので，今回uninstallしてからhomebrewで入れ直すことにした(TeXShopはもう必要ないという方は-no-guiをつける)．この辺は皆さんに任せる．
+
+```zsh
+brew install --cask mactex-no-gui
+```
+
+　次にpackageをupdateしておく. 
+```zsh
+sudo tlmgr update --self --all
+```
+sudoはSuperUser DOであり，これにより一時的に管理者権限を得てなんでもできるようになる(破壊もできるので危険も伴う)．tlmgrはTeX Live Managerである．selfで先にTeX Live Manager自体をupdateしてからallで全てのpackageをupdateしている．
+
+　また，TeXShopだと¥を打つと自動で`\`になっていたが，VSCodeでは¥のままなので，まだの人はこの機に常に`\`に設定してしまおう．(例えば[@backslash]を参照)
+
+## latexmk
+
+　latexmkとはコンパイルに関する自動処理システムであり，`\ref`やbibtexをちゃんと必要な回数ループしてくれる．mkはmakeである．latexmkの設定を書くファイルが.latexmkrcであり，rcはrun commandsである．まずはnanoで.latexmkrcを開こう．(ターミナルの使い方でも述べたが，.latexmkrcが存在しない場合は自動で作成される．)
+```zsh
+nano ~/.latexmkrc
+```
+
+　ここに関しては[@saiko]のコードの内容を調べた結果，ここは基本的に個人の好みが出る部分ではないし(defaultだとlatexmkは日本語非対応なのでplatexに変更するなどしている)，このコードを理解しても他の理解が深まるようにも思えなかったので，何も説明しない．まあいいかという人は[@saiko]のをコピペしてnanoを閉じてほしい(lualatexを使っている方は少し修正する必要がある)．詳細が気になる人はAIに投げて解説してもらってほしい．
+
+## settings.json
+
+　VSCodeのサイドバーの拡張機能からLaTeX Workshopをinstallする．左下歯車から「設定」を開き右上のファイルを開くアイコン(書類の左肩にくるっとした矢印があるもの)を押すとsettings.jsonが開く．jsonとはJavaScript Object Notationである．
+
+　VSCodeはdefaultの設定がしっかりしているのでほとんど書き込む必要はない．実際ネットでとにかくこれをコピペしておけというものの内容を一つ一つ調べてみると，defaultで既にそうなっていたり，気にしないような差異だったりしたので，ここは必要だと思ったタイミングで都度追加するのが良いと思う．
+
+　ただし，defaultだとauto saveはoffであり，auto buildはonFileChange(内容に変更があるたびに自動コンパイル)である．
+
+　auto saveに関してはafterDelay(一定時間後に自動保存)というオプションがあり，defaultでは1000ミリ秒後, つまり1秒後にオートセーブされる．他の値にしたいときは`"files.autoSaveDelay": 5000,` のように追記する．手動で保存するには`command` + `S` (saveのS)である．afterDelay以外のオプションもあるがここでは割愛．auto buildに関してはOnFileChangeの他にonSave(保存時に自動コンパイル)とneverがある．TeXShopと同じにしたいならauto saveはafterDelayでauto buildはneverにすれば良い．
+
+　また，VSCodeはdefaultでコンパイルのオプションが色々用意されており(サイドバーから`TeX` をクリックし，「コマンド」を展開して，「LaTeXプロジェクトをビルド」を展開すると，レシピというのがずらっと確認できる．)，何も指定せずに単にコンパイルした場合は一番上のレシピに従ってコンパイルされる．defaultだと一番上はdefaultのlatexmkを使用したコンパイルになっており，せっかくさっき作成した.latexmkrcを参照してくれない．
+
+　以上を踏まえて，私は次のように書いた．
+```json
+{
+    // 1秒後にオートセーブする
+    "files.autoSave": "afterDelay",
+
+    // オートコンパイルをオフにする
+    "latex-workshop.latex.autoBuild.run": "never",
+    
+    // コンパイル時にlatexmkrcを使用する
+    "latex-workshop.latex.recipe.default": "latexmk (latexmkrc)",
+}
+```
+　正式には最後はカンマをつけないのだが，つけても問題なく動く．
+
+::: callout-note
+　左下の歯車アイコンから「設定」を開き，その検索窓でautosaveやautobuildやrecipeなどと調べるとGUI操作で変更することが可能で，変更が自動的にsettings.jsonファイルに書き込まれる．自分で書き込んだ方が直接的だし，コメントもつけられるため，ここではそちらを採用した．
+VSCodeを使っているとそういったGUI操作の結果として，settings.jsonに知らないうちに色々書き込まれていることがある．
+:::
+
+## latex.json
+
+　TeXShopでは自分だけのコマンド補完とキーバインドを利用していた人も多いと思う．この節ではその話をする．
+
+　まずキーバインドについてだが，defaultで`()`，`{}`，`[]`は備わっている．私はTeXShopで`$$`，`_{}`，`^{}`などを使っていたので設定しようとしたが，なかなかうまくいかず諦めた．[^9]
+
+[^9]: `$`がカーソルの位置を指示する特殊文字なのが原因だと思う．
+
+キーバインドに関してはdefaultのに慣れるのが良いのではというのが現在の私見である．
+
+　次にコマンド補完について説明する．左下歯車から「スニペット」をクリックし，上の検索窓で`latex`を選択すると，`latex.json`が生成される．そこにTeXShopと同じ要領で自分だけのコマンド補完を書けば良い．snippetとは断片というような意味．TeXShopだとescキーだったが，VSCodeではtabキーになっていることに注意．ここは流石に人それぞれなので書かないが，一応現在の私の例を
+[GitHub](https://github.com/yoshiyuki-miyamori/MacBookEnv)
+にテキストファイルで載せた．自分だけのテンプレートを登録すると思うが，`""`で囲んだりカンマをつけたりしないといけないのが面倒である．そんなときはCopilotにデバッグしてもらおう．やり方は使い方のpdfに書いている．(長すぎると小分けにしないといけないかも．)
+
+　罠としては`}`が特殊文字なので，コマンド補完で`\}`を書くには`\\}`ではなく`\\\\}`と書く必要がある．

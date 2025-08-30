@@ -1,0 +1,89 @@
+---
+title: "最近のAI雑談"
+author: "宮森祥行"
+date: last-modified
+format:
+  html:
+    code-copy: true
+    date-format: "YYYY年M月D日"
+    toc: true
+    embed-resources: true
+bibliography: references.bib
+---
+
+# Gemini CLI
+
+　AIの自律度は4段階あり，
+GitHub Copilotのようなコード補完型がレベル1であり，
+GitHub Copilot Chatのようなチャット型がレベル2であり，
+レベル3のエージェント型，その中でも特にCLI型が最近非常に盛り上がっている．
+コード補完型とチャット型は特に説明の必要はないと思う．
+チャット型のAIは色々教えてくれるが，それを実行するには人間が動く必要があった．
+エージェント型というのは実際の操作までもやってくれるのである．ここまでくると人に頼んでいる感覚にかなり近い．
+
+::: callout-warning
+AIが何かを実行するときはdefaultだと必ず確認が入るので不安になることはない．
+この操作は確認不要で，この操作は確認必要というふうにカスタマイズすることもできる．
+:::
+
+　ブラウザやクラウド上で動くAIエージェントもあるが，そこにあるファイルにしかアクセスできないので，その点ローカルで動くCLIはとても便利である．(Wifiが不要という意味ではない．)
+もちろん過信は禁物で，例えば[@vibe]などが参考になる．
+
+
+　Claude Codeが非常に性能が良いと話題であるが，有料だし私は大して難しいこともしていないので，
+Claude Codeよりはかなり性能が劣るらしいが無料で使えるGemini CLIを触ってみることにした．
+(OpenAIのCodex CLIも有料であり，Googleは非常に太っ腹である．)
+無料版はやり取りのデータが学習に利用されるのでセキュリティには気をつける必要がある．[@geminicli]
+
+　まずはNodeというJavaScriptの実行環境をinstallする．
+```zsh
+brew install node
+```
+その後Gemini CLIをinstall.
+```zsh
+npm install -g @google/gemini-cli
+```
+npmはNode Package Manager，-gは--globalである．
+完了したら`gemini'と入力すると立ち上がる．
+ログインしないといけないので，特別こだわりがなければGoogleアカウントでログインしよう．
+
+　おそらくちょっとしたエラーが出ていると思うので，気持ち悪かったら，
+「システム設定」から「プライバシーとセキュリティ」から「フルディスクアクセス」でターミナルをオンにしておこう．
+
+　また，`You are running Gemini CLI in your home directory. It is recommended to run in a project-specific directory.`
+という警告が出ていると思う．
+これは当然ながらGemini CLIがホームディレクトリにいると，
+コンピュータ上のかなりのものにアクセスできてしまうので，
+万が一AIが変な操作を提案してきてそれにOKしてしまったらコンピュータが壊れかねない．
+もちろん`cd プロジェクトフォルダ`してから呼び出してもいいが，
+VSCodeでプロジェクトのフォルダを開いてからVSCode上のターミナルでGemini CLIを呼び出すのが，
+VSCode上で完結するし快適だと思う．
+
+　終了したい時は`/quit`である．他にも`/`から色々選べる．
+
+
+さて，ではVSCodeでフォルダを開いたら，
+まずはGEMINI.mdというファイルを作成し，これにGemini CLIの自分好みの設定を書き込もう．
+日本語で良い．
+その後ターミナルを開いて`gemini`を実行すれば良い．
+
+
+# gpt-oss
+
+　ossはおそらくopen source softwareの略であり，ダウンロードすれば誰でもWifiなしでローカルで動かすことができる．
+
+::: callout-warning
+厳密にはgpt-ossはopen source softwareではないのでossとしか言っていない．この辺は面倒なので，以下ではフワッとオープンなモデルと呼ぶことにする．
+:::
+
+　オープンなLLM(large language model; 大規模言語モデル)は今までにもGoogleやMetaから出ていたが，open sourceなので最新の企業秘密を公開するわけにはいかず(単純にローカル環境のリソースの問題もある)，かなり性能が悪いというのが通説であった．しかし今月OpenAIから6年ぶりに出たgpt-oss-120bとgpt-oss-20bはそれぞれo4-miniとo3-miniと同等の性能であり，かなりいいと話題になっている．特に20bの方はメモリ16GBでも動くということで，少し前までとんでもないリソースで動かしていたLLMが，ちょっといいPCで十分動かせるというのは衝撃である．パソコンにAIを搭載するのが当たり前の日は案外近いかもしれない．
+
+　とはいえやはり最新版のAIの方が速いし性能がいいので今のところ使う場面はないと思うが，ローカルのメリットとしては，まず当たり前だがセキュリティの心配がないことである．また，使い放題だし，自分好みに強化学習することもできる．
+他にも例えば車にAIを搭載するとなった場合は，山道に入ったら使えないでは困るのでローカルのAIが必要になる．
+
+　では実際に導入してみよう．ここではOllamaを使うことにする．
+```zsh
+brew install --cask ollama
+```
+でinstallしたら，アプリを開いて，`gpt-oss:120b`や`gpt-oss:20b`を選択して，メッセージを送信すればインストールを開始してくれる．以上である．その他のgemmaがGoogle製，llamaがMeta製，deepseekはDeepSeek製，qwenはAlibaba製である．
+増田先生にもらったiMacはメモリ128GBのトンデモスペックだったので，`gpt-oss:120b`を入れてみた．全然使える．

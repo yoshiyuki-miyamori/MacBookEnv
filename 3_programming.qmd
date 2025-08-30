@@ -1,0 +1,212 @@
+---
+title: "VSCodeでプログラミングの環境構築"
+author: "宮森祥行"
+date: last-modified
+format:
+  html:
+    code-copy: true
+    date-format: "YYYY年M月D日"
+    toc: true
+    embed-resources: true
+bibliography: references.bib
+---
+
+　これもmacOSを想定して書いており，Homebrewを使っているが，それ以外は同じはずである．
+
+# Julia
+
+　Juliaは色々な言語の良いとこどりをしようと開発された言語であり，高水準言語なのに低水準並みのスピードをもつ(つまりわかりやすくて速い)のが特徴である．
+
+　言語やパッケージはその時の最新版を使いたいが，これらのupdateによって昔作ったものが動かなくなるということは避けたい．これを叶えるのが仮想環境であり，プロジェクト毎にローカル環境とは切り離された仮想の世界で作業するのが定石である．Juliaの場合は，言語のバージョンはjuliaupで行き来できるようになっているので，[^1]Homebrewからいきなりjuliaをinstallするのではなく，juliaupを挟もう．
+
+[^1]: 使い方はたとえば[@juliaup]を参照．
+
+```zsh
+brew install juliaup
+```
+　その後
+```zsh
+julia
+```
+と実行すればinstall完了である．`exit()`で閉じておこう．
+
+　次にVSCodeの拡張機能から`Julia`をinstallしておこう．VSCodeでフォルダを開き，juliaファイルを作ろう．拡張子は.jlである．次に上の検索窓から`> Julia: Start REPL`でJulia REPLというターミナル画面を開こう．(defaultだと上下だが，画面右上の`Julia REPL (v1.11.6)`のようなアイコンをドラッグして右端に持ってくると左右で二面にすることもできる．[^2])REPLというのはRead-Eval-Print Loopのことであり，対話環境とも呼ばれる．名前の通り，流れて来たコードを読んで実行して出力を表示してくれる．
+
+[^2]: 例えばグラフをプロットしたときはREPLの下にドラッグ&ドロップして右半面を上下にスプリットするのも見やすい
+
+　言語の管理はjuliaupで良かったが，packageの管理がまだであった．今開いたJulia REPL画面で`]`を入力するとプロンプトが`julia>`から`(@v1.11) pkg>`に変わる．v1.11はversionでpkgはpackageである．この状態だとローカル環境でpackageの操作をしてしまうので，そのpackageプロンプトにおいて`activate .`を実行しよう．この` . `はカレントディレクトリを指定している．`activate パス`でも良い．プロンプトが`(フォルダ名) pkg>`に変わっていたら成功である．バックスペースキーでpackageプロンプトを終了できる．
+
+::: callout-note
+zshで`jula`を実行してもjuliaという対話環境が開けるが，先ほどのJulia REPLはVSCodeの拡張機能によって提供されている改良版の対話環境である．
+:::
+
+　緑三角のコンパイルボタンを押すと.jlファイル全体のコードをまとめて実行してくれ，また`Shift` + `Enter`でカーソルのある行のコードだけを実行して次の行に移ることができる．Julia REPLにベタ打ちしてEnterで実行することもできる．先ほどは`> Julia: Start REPL`からJulia REPLを開いたが，コードを実行するとJulia REPLは自動で開く．(ただし一度閉じてしまった場合は，上の検索窓から`> Julia: Start REPL`で開く必要がある．)
+
+　好みの問題だが，私はコードの右端に出るミニマップが邪魔だったので，settings.jsonに
+```json
+// (カーソルを合わせない限り)ミニマップを非表示にする
+"editor.minimap.autohide": "mouseover",
+```
+を追加した．これでマウスを右端に持って来た時にだけミニマップが表示される．defaultだと`none`に設定されており，他にも`scroll`というオプションもある．
+
+　パッケージを追加したい場合は`]`でpackageプロンプトに変更し，`add パッケージ名`で追加できる．また，`rm パッケージ名`で削除できる(rmはremove)．使う時はREPLで`using パッケージ名`を実行すると使えるようになる．packageプロンプトで`st`(あるいは`status`)と入力するとinstalled packages一覧が表示される．
+
+　例えば乱数を生成するときは，再現性を担保するためにseedを指定しておくことが望ましい．Juliaの場合は
+```julia
+using Random
+Random.seed!(123) 
+```
+のようにしておくと良いだろう．数字はなんでも良い．また，Random.jlは標準ライブラリに入っているのでinstallする必要はない．
+
+　準備は大体こんなところである．Juliaのコードの書き方は，例えばネットで公開されているEcoSta2025の資料(3章まで[^3])などを参照されたい．
+(GitHub: <https://github.com/mattiasvillani/Julia4Stats>, Web: <https://mattiasvillani.com/Julia4Stats/>)
+
+わからないコードはCopilot(か私)に聞けばわかるはず．
+
+[^3]: 4章のprobabilistic programmingというのは基本的にベイズの話である．
+
+# Python
+
+　Pythonの環境構築の方法はさまざまで，例えば初心者には，必要そうなものが全部入ったAnacondaをお勧めされることが多いが，初めの一歩は簡単なもののデメリットもあり後々困ると嫌なので，ここでは最小限の環境構築で済ませることにする．[@python]
+
+　Pythonの言語管理はpyenv($\leftarrow$ python environment)などでできる．juliaupは後発なのでinstallするだけでよかったが，pyenvはパスを通す必要がある．大した手間ではなさそうだが，私はJuliaをメインで使うつもりなのでPythonの管理は必要になってから始めても遅くないかと
+```zsh
+brew install python
+```
+で済ませてしまった．申し訳ないが設定したい方は自分でやってほしい．
+
+　次にVSCodeの拡張機能から`Python`をinstallしておこう．
+
+　さて，packageの管理だが，プロジェクトのフォルダを開いたら，上の検索窓から`> Python: Select Interpreter`から「仮想環境の作成」から`venv`を選択しよう．venvはvirtual environmentである．もう一つの`conda`はAnacondaやMinicondaを使う人用のより強力な仮想環境で，その分容量が重い．venvで困らない限りはvenvで良い．成功するとzshのプロンプトの最初に(.venv)と表示される．
+
+　Pythonの使い方は例えば <https://chokkan.github.io/python/index.html> や <https://utokyo-ipp.github.io> などを参照してほしい．
+
+# R
+
+　まずはRをinstallする．
+```zsh
+brew install r
+```
+
+　RStudioというほとんどR専用のIDEがあり，これが覇権をとっているためVSCodeで環境構築をする意味はあまりない．RStudioを使う方は
+```zsh
+brew install --cask rstudio
+```
+でOK．どうしてもVSCodeを使いたい方以外は以下は飛ばして良い．
+
+　まずはVSCodeの拡張機能から`R`をinstallする．次にRはpackageをinstallする時に，RのパッケージリポジトリであるCRAN(Comprehensive R Archive Network)のどこからダウンロードするか選ばないといけない．毎回選ぶのは面倒なので，おすすめにしてくれるURLを設定しておこう．
+```zsh
+nano ~/.Rprofile
+```
+を開き，
+```r
+options(repos = c(CRAN = "https://cloud.r-project.org/"))
+```
+を書き込んで閉じよう．
+
+　VSCodeでの基本設定が書いてあるpackageをinstallする．ターミナルで`R`を実行して開き，
+```r
+install.packages("languageserver")
+```
+
+　以下はQuartoでRを使うための設定である．RStudioなら設定なしでいきなり使える．VSCodeを使いたい場合は以下のpackagesをinstallする．
+```r
+install.packages("knitr")
+install.packages("IRkernel")
+```
+　一つ目はmarkdownを使えるようにするもので，二つ目はRをJupyterで使えるようにするためのものである．IRはinteractive Rである．
+
+　Rの使い方は省略する．例えば私がTAをやらせてもらった講義の資料はとても充実しており，無料で公開されている．(<https://noboru-murata.github.io/statistical-data-analysis1/>)
+他にも(<https://htsuda.net/stats/index.html>)など．
+
+# Quarto
+
+　Quartoはコード(Python, Julia, R)と文章を同時に書くことができ，出力形式もスライドやpdfやhtmlなど自由自在であり，非常に便利である．数式もTeXの要領で書くことができるが，その他はマークダウンで書く．マークダウンの書き方は簡単だし習得しておいて損はない．(例えば[@markdown]を参照．)Quartoファイルの拡張子は.qmd($\leftarrow$ quarto markdown)である．
+まずはinstallする．
+```zsh
+brew install quarto
+```
+　次にVSCodeの拡張機能で`Quarto`をinstallする．
+これのようなPythonなどのプログラミング言語を使わない文書の場合はこれで準備完了である．
+
+　プログラミング言語が内容に含まれる場合は，フォルダを開いたら，まずは仮想環境を作成しよう．Jupyter($\leftarrow$ Julia + Python + R)というPythonで書かれたアプリで動かすので，Pythonのやり方で作成する．(上の検索窓から`> Python: Select Interpreter`から「仮想環境の作成」から`venv`を選択)．
+
+　次に，Jupyterをinstallする．
+```zsh
+pip install jupyter
+```
+
+　Pythonは設定不要でいきなり実行可能だが，Juliaを実行したい場合にはJuliaのkernelを追加しないといけない．
+```zsh
+julia
+```
+でjuliaの対話環境にして，`]`でpackageプロンプトにして，
+```julia
+activate .
+```
+でjuliaの仮想環境を作ってから，IJuliaというJuliaをJupyterで使えるようにするためのpackageをinstallする．
+```julia
+add IJulia
+```
+　Rと同様にIJuliaもinteractive Juliaである．その後juliaの対話環境を終了する(バックスペースからの`exit()`)．
+
+　(.venv)に戻ってきたら
+```zsh
+jupyter kernelspec list
+```
+でjupyter kernelの一覧を表示してみよう．python3というのは元からあるのだが，julia-1.11のようなものが追加されていれば成功である．.qmdファイルの頭のYAMLに`jupyter: julia-1.11`のように書けばjuliaを使える．
+
+　同様にRを使いたい時は，まずはターミナルで`R`を実行して開き，
+```r
+IRkernel::installspec()
+```
+を実行する．これで先ほどIRkernelでinstallしたRのkernelがjupyterに追加される．specはspecificationである．`q()`でRを終了して，先ほどと同様に
+```zsh
+jupyter kernelspec list
+```
+でjupyter kernelの一覧を表示すると，`ir`が追加されているはずである．同様にYAMLに`jupyter: ir`と書けば良い．
+
+　ダウンロードしてきた.qmdファイルを開くとコードではなく少しコンパイルされた状態で表示されることがある．その時は右上の横三点アイコンから`Edit in Source Mode`をクリックすればコードが表示される．
+
+　一応YAMLの例を載せておく．
+pdfなら
+```yaml
+---
+title: "タイトル"
+author: "名前"
+date: last-modified
+format:
+   pdf:
+    documentclass: ltjsarticle
+    pdf-engine: lualatex
+    date-format: "YYYY年M月D日"
+    include-in-header:
+      text: |
+        \usepackage{amsthm, mathtools, amssymb}
+        \usepackage{tikz}
+execute: 
+  warning: false
+jupyter: julia-1.11
+---
+```
+htmlなら
+```yaml
+---
+title: "タイトル"
+author: "名前"
+date: last-modified
+format:
+  html:
+    code-copy: true
+    date-format: "YYYY年M月D日"
+    toc: true  # table of contents
+    embed-resources: true
+execute: 
+  warning: false
+jupyter: julia-1.11
+---
+```
+など．platexではなくlualatexを使う必要があることに注意．
+
+
+　他にもPrettierというコードフォーマッターなど，色々便利な拡張機能があるが，私のモチベ不足から導入できていない．導入した方はぜひ教えてください．

@@ -1,0 +1,327 @@
+{
+	"align*": {
+		"prefix": "a",
+		"body": [
+			"\\begin{align*}",
+			"$1",
+            "\\end{align*}"
+		],
+		"description": "Align environment"
+	},
+
+	"matrix": {
+		"prefix": "m",
+		"body": [
+			"\\begin{pmatrix}",
+			"$1",
+            "\\end{pmatrix}"
+		],
+		"description": "Matrix environment"
+	},
+
+	"bibtex": {
+		"prefix": "bib",
+		"body": [
+			"\\bibliographystyle{junsrt}",
+			"\\bibliography{myrefs}"
+		],
+		"description": "Bibtex environment"
+	},
+
+	"Bibtex": {
+		"prefix": "BIB",
+		"body": [
+			"\\begin{thebibliography}{99}",
+			"\\bibitem{$1}",
+			"",
+			"\\end{thebibliography}"
+		],
+		"description": "Bibtex environment"
+	},
+
+	"Theorem": {
+		"prefix": "thm",
+		"body": [
+			"\\begin{thm}",
+			"$1",
+            "\\end{thm}"
+		],
+		"description": "Theorem environment"
+	},
+
+	"Definition": {
+		"prefix": "dfn",
+		"body": [
+			"\\begin{dfn*}",
+			"$1",
+            "\\end{dfn*}"
+		],
+		"description": "Definition environment"
+	},
+
+	"Lemma": {
+		"prefix": "lem",
+		"body": [
+			"\\begin{lem}",
+			"$1",
+            "\\end{lem}"
+		],
+		"description": "Lemma environment"
+	},
+
+	"Remark": {
+		"prefix": "rem",
+		"body": [
+			"\\begin{rem*}",
+			"$1",
+            "\\end{rem*}"
+		],
+		"description": "Remark environment"
+	},
+
+	"Corollary": {
+		"prefix": "cor",
+		"body": [
+			"\\begin{cor}",
+			"$1",
+            "\\end{cor}"
+		],
+		"description": "Corollary environment"
+	},
+
+	"Proposition": {
+		"prefix": "prop",
+		"body": [
+			"\\begin{prop}",
+			"$1",
+            "\\end{prop}"
+		],
+		"description": "Proposition environment"
+	},
+
+	"Proof": {
+		"prefix": "pf",
+		"body": [
+			"\\begin{proof}",
+			"$1",
+            "\\end{proof}"
+		],
+		"description": "Remark environment"
+	},
+
+	"Example": {
+		"prefix": "eg",
+		"body": [
+			"\\begin{eg}",
+			"$1",
+            "\\end{eg}"
+		],
+		"description": "Remark environment"
+	},
+
+	"Itemize": {
+		"prefix": "item",
+		"body": [
+			"\\begin{itemize}",
+			"\\item",
+			"$1",
+            "\\end{itemize}"
+		],
+		"description": "Itemize environment"
+	},
+
+	"Enumerate": {
+		"prefix": "enum",
+		"body": [
+			"\\begin{enumerate}",
+			"\\item",
+			"$1",
+            "\\end{enumerate}"
+		],
+		"description": "Enumerate environment"
+	},
+
+	"Includegraphics": {
+		"prefix": "graph",
+		"body": [
+            "\\includegraphics[width=7cm]{$1.pdf}"
+		],
+		"description": "Includegraphics environment"
+	},
+
+	"default": {
+		"prefix": "defa",
+		"body": [
+			"\\documentclass[dvipdfmx]{jsarticle}",
+			"",
+            "\\usepackage[hiresbb]{graphicx}",//高解像度の画像を扱うためのパッケージ
+            "\\usepackage{amsthm, mathtools, amssymb}",//数式を扱うためのパッケージ
+            "\\usepackage[unicode, colorlinks=true, allcolors=blue]{hyperref}",//ハイパーリンクを扱うためのパッケージ
+            "%\\usepackage[hidelinks = true]{hyperref}",//ハイパーリンクを扱うためのパッケージ（リンクの色を消す）
+            "\\usepackage{cleveref}",//参照を扱うためのパッケージ
+            "\\usepackage{tikz}",//図を描画するためのパッケージ
+            "\\usetikzlibrary{intersections, calc, arrows.meta}",//TikZのライブラリ,
+            "\\allowdisplaybreaks[1]", //数式の改ページを許可する
+			"",
+			"\\usepackage{listings, jvlisting}", //コードを貼り付けるためのパッケージ
+			"\\usepackage[T1]{fontenc}", //コードを貼り付けるときにチルダをうまく表示させるパッケージ
+			"\\lstset{",
+				"basicstyle={\\ttfamily},",
+				"identifierstyle={\\small},",
+				"commentstyle={\\small\\itshape},",
+				"keywordstyle={\\small\\bfseries},",
+				"ndkeywordstyle={\\small},",
+				"stringstyle={\\small\\ttfamily},",
+				"frame={tb},",
+				"breaklines=true,",
+				"columns=[l]{fullflexible},",
+				"numbers=left,",
+				"xrightmargin=0zw,",
+				"xleftmargin=3zw,",
+				"numberstyle={\\scriptsize},",
+				"stepnumber=1,",
+				"numbersep=1zw,",
+				"lineskip=-0.5ex,",
+				"}",
+			"",
+			"\\theoremstyle{definition}",
+            "\\newtheorem{thm}{Theorem}[section]",
+            "\\newtheorem{lem}[thm]{Lemma}",
+            "\\newtheorem{prop}[thm]{Proposition}",
+            "\\newtheorem{cor}[thm]{Corollary}",
+            "\\newtheorem{assmp}{Assumption}",
+            "\\newtheorem{conj}{Conjecture}",
+            "\\newtheorem{dfn}{Definition}",
+            "\\newtheorem{rem}{Remark}",
+			"\\newtheorem{eg}{Example}",
+			"",
+            "\\newtheorem*{thm*}{Theorem}",
+            "\\newtheorem*{lem*}{Lemma}",
+            "\\newtheorem*{prop*}{Proposition}",
+            "\\newtheorem*{cor*}{Corollary}",
+            "\\newtheorem*{assmp*}{Assumption}",
+            "\\newtheorem*{conj*}{Conjecture}",
+            "\\newtheorem*{dfn*}{Definition}",
+            "\\newtheorem*{rem*}{Remark}",
+			"\\newtheorem*{eg*}{Example}",
+			"",
+			"\\newcommand{\\N}{\\mathbb{N}}",
+            "\\newcommand{\\Z}{\\mathbb{Z}}",
+            "\\newcommand{\\R}{\\mathbb{R}}",
+            "\\newcommand{\\C}{\\mathbb{C}}",
+            "\\newcommand{\\X}{\\mathbb{X}}",
+            "\\newcommand{\\Y}{\\mathbb{Y}}",
+            "\\newcommand{\\T}{\\mathbb{T}}",
+			"",
+			"\\newcommand{\\F}{\\mathcal{F}}",
+			"\\newcommand{\\G}{\\mathcal{G}}",
+			"\\newcommand{\\I}{\\mathcal{I}}",
+			"",
+			"\\newcommand{\\II}{I\\hspace{-1.2pt}I}",
+			"\\newcommand{\\III}{I\\hspace{-1.2pt}I\\hspace{-1.2pt}I}",
+			"\\newcommand{\\IV}{I\\hspace{-1.2pt}V}",
+			"\\newcommand{\\VI}{V\\hspace{-1.2pt}I}",
+			"\\newcommand{\\VII}{V\\hspace{-1.2pt}I\\hspace{-1.2pt}I}",
+			"\\newcommand{\\VIII}{I\\hspace{-1.2pt}I\\hspace{-1.2pt}I\\hspace{-1.2pt}I}",
+			"\\newcommand{\\IX}{I\\hspace{-1.2pt}X}",
+			"",
+			"\\renewcommand{\\b}[1]{\\left( #1 \\right)}",
+            "\\newcommand{\\br}[1]{\\left\\{ #1 \\right\\\\}}",// }は特殊文字なので\\でエスケープする必要がある
+            "\\newcommand{\\bra}[1]{\\left[ #1 \\right]}",
+            "\\newcommand{\\abs}[1]{\\left| #1 \\right|}",
+            "\\newcommand{\\norm}[1]{\\left\\| #1 \\right\\|}",
+			"",
+			"\\renewcommand{\\cal}[1]{\\mathcal{#1}}",
+			"\\newcommand{\\bb}[1]{\\mathbb{#1}}",
+			"\\renewcommand{\\bf}[1]{\\textbf{#1}}",
+			"\\newcommand{\\up}[1]{\\textup{#1}}",
+			"",
+			"\\newcommand{\\rt}[1]{\\sqrt{#1}}",
+			"\\newcommand{\\f}[2]{\\frac{#1}{#2}}",
+			"",
+			"\\newcommand{\\al}{\\alpha}",
+			"\\newcommand{\\be}{\\beta}",
+			"\\newcommand{\\lam}{\\lambda}",
+			"\\newcommand{\\sig}{\\sigma}",
+			"\\newcommand{\\Sig}{\\Sigma}",
+			"\\newcommand{\\ep}{\\varepsilon}",
+			"\\newcommand{\\del}{\\delta}",
+			"\\newcommand{\\Del}{\\Delta}",
+			"\\newcommand{\\gam}{\\gamma}",
+			"\\newcommand{\\Gam}{\\Gamma}",
+			"\\renewcommand{\\th}{\\theta}",
+			"\\newcommand{\\om}{\\omega}",
+			"\\newcommand{\\Om}{\\Omega}",
+			"",
+			"\\newcommand{\\til}[1]{\\tilde{#1}}",
+			"\\newcommand{\\wtil}[1]{\\widetilde{#1}}",
+			"\\newcommand{\\ol}[2]{\\overline{#1}{#2}}",
+			"",
+			"\\newcommand{\\lims}[1]{\\underset{#1 \\rightarrow \\infty}{\\overline{\\lim}}}",
+			"\\newcommand{\\limi}[1]{\\underset{#1 \\rightarrow \\infty}{\\underline{\\lim}}}",
+			"\\renewcommand{\\dfn}{\\coloneqq}",
+			"",
+			"\\newcommand{\\lhs}{\\textup{(LHS)}}",
+			"\\newcommand{\\rhs}{\\textup{(RHS)}}",
+			"",
+			"\\newcommand{\\vs}[1]{\\vspace{#1 pt}}",
+			"\\newcommand{\\hs}[1]{\\hspace{#1 pt}}",
+			"",
+			"\\newcommand{\\sub}{\\subseteq}",
+			"\\newcommand{\\mini}{\\wedge}",
+			"\\newcommand{\\mixi}{\\vee}",
+			"",
+			"\\newcommand{\\intersection}{\\cap}%intersection",
+			"\\newcommand{\\Intersection}{\\bigcap}%big intersection",
+			"\\newcommand{\\union}{\\cup}%union",
+			"\\newcommand{\\Union}{\\bigcup}%big union",
+			"\\newcommand{\\Inf}{\\infty}",
+			"",
+			"\\newcommand{\\ra}{\\rightarrow}",
+			"\\newcommand{\\Ra}{\\Rightarrow}",
+			"\\newcommand{\\lra}{\\longrightarrow}",
+			"\\newcommand{\\Lra}{\\Longrightarrow}",
+			"\\newcommand{\\da}{\\downarrow}",
+			"\\newcommand{\\ua}{\\uparrow}",
+			"",
+			"\\renewcommand{\\P}[1]{P\\left( #1 \\right)}",
+			"\\newcommand{\\E}[1]{\\mathrm{E}\\left[ #1 \\right]}",
+			"\\newcommand{\\EE}{\\mathrm{E}}",
+			"\\newcommand{\\Var}[1]{\\mathrm{Var}\\left[ #1 \\right]}",
+			"\\newcommand{\\Varr}{\\mathrm{Var}}",
+			"\\newcommand{\\Cov}[1]{\\mathrm{Cov}\\left[ #1 \\right]}",
+			"\\newcommand{\\Covv}[1]{\\mathrm{Cov}}",
+			"",
+			"\\newcommand{\\dist}{\\overset{d}{\\longrightarrow}}",
+			"\\newcommand{\\prob}{\\overset{p}{\\longrightarrow}}",
+			"\\newcommand{\\AS}{\\overset{\\textup{a.s.}}{\\longrightarrow}}",
+			"\\renewcommand{\\L}[1]{\\overset{L^{#1}}{\\longrightarrow}}",
+			"",
+			"\\newcommand{\\iid}{ \\textup{i.i.d.} \\ }",
+			"\\newcommand{\\as}{\\ \\textup{a.s.}}",
+			"\\newcommand{\\st}{\\ \\textup{s.t.}\\ }",
+			"\\newcommand{\\As}{\\ \\ \\textup{as} \\ \\ }",
+			"\\renewcommand{\\And}{\\ \\textup{and} \\ }",
+			"\\newcommand{\\Or}{\\ \\textup{or} \\ }",
+			"\\newcommand{\\where}{\\ \\textup{where} \\ }",
+			"",
+			"\\newcommand{\\Norm}[1]{\\mathcal{N}\\left( #1 \\right)}",
+			"\\newcommand{\\indep}{\\mathop{\\perp\\!\\!\\!\\!\\perp}}",
+			"\\newcommand{\\disteq}{\\overset{d}{=}}",
+			"\\newcommand{\\If}{\\textup{if}\\ \\ }",
+			"",
+			"",
+			"",
+			"\\begin{document}",
+            "\\title{$1}",
+			"\\author{宮森祥行}",
+            "\\date{\\today}", 
+            "\\maketitle",
+			"",
+			"",
+			"",
+            "\\end{document}"
+		],
+		"description": "Default document class and packages"
+	}
+}
