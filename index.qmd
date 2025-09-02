@@ -22,6 +22,10 @@ format:
 - [最近のAI雑談](4_generative_ai.html)
 
 
+## 2025年9月
+
+- [Discordの翻訳Botを作る](5_python.html)
+
 # Webサイトの作り方
 
 　GitHubを使って.htmlファイルをウェブサイトとして公開することができる．
