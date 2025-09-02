@@ -1,0 +1,243 @@
+---
+title: "Discordの翻訳Botを作る"
+author: "宮森祥行"
+date: last-modified
+format:
+  html:
+    code-copy: true
+    date-format: "YYYY年M月D日"
+    toc: true
+    embed-resources: true
+bibliography: references.bib
+---
+
+　ここで作るBotは個人利用を想定としており，公開する場合にはおそらく注意すべきことがいろいろある．
+
+　API(Application Programming Interface)とは，アプリの機能やデータを簡単に別のアプリで使えるようにするためのシステムである．
+
+# Botの作成
+　まずは<https://discord.com/developers/applications>から`New Application`をクリック．
+名前はなんでも良い．そのあと画像をつけるとそれらしさが出る．
+
+　次に左のメニューバーからOAuth2をクリックし，OAuth2 URL Generatorからbotにチェックを入れると，ボットに与える権限の選択画面が下に現れる．
+考えるのが面倒な場合は`Administorator`で良い．すると一番下にURLの`Copy`ボタンが出るので，コピーしてブラウザで読み込み，botを導入したいサーバーを選ベば導入できる．
+(当たり前だがこのままでは何の機能もない．)
+
+
+# DeepLを利用した翻訳プログラムの作成
+
+　ここではDeepLを利用した翻訳Botを作る．
+今回はPythonで作るので，まだの場合はinstallしておく．
+VSCodeでフォルダを開いたら，まずは仮想環境を作ろう．(上の検索窓から`> Python: Select Interpreter`から「仮想環境の作成」から`venv`を選択．)
+
+　次に必要なpackagesをinstallする．VSCodeでターミナルを開き，
+```zsh
+pip install discord.py requests
+```
+ここで，discord.pyはDiscordのAPIをPythonで簡単に扱えるようにするためのものであり，requestsはWebサービスのAPIを扱うためのもので，今回はDeepLのAPIを扱うために使う．
+あとで説明しているが[@bot2]のプログラムで動かしたい場合は`langdetect`という文章が何語かを判定してくれるものもinstallする必要がある．
+
+　まずはDeepLのAPIキーを取得しよう．
+<https://www.deepl.com/en/translator>にログインし，右上のアカウントアイコンからAccountをクリック．
+その後API keys & limitsに移動し，既にAPIキーが表示されていればそれをコピー．無ければCreate keyボタンをクリック．名前は記入しなければdefaultでDeepL API Keyという名前になる．
+作成できたらコピーボタンを押して控えておこう．Freeプランで十分な量使える．
+
+　次にBotのトークンも必要なので取得する．
+再び<https://discord.com/developers/applications>で先ほど作ったBotを選択し，
+左のメニューバーからBotをクリック．TOKENの`Reset Token`ボタンを押すと`Copy`ボタンが出るのでコピーして控えておく．
+
+::: callout-warning
+APIキーもトークンも絶対に外部に公開してはいけない．
+:::
+
+　準備が終わったのでPythonでプログラムを書く．例えば以下の中から好きなものを選んで，コード内の「Discordのトークン」と「DeepLのAPI」を書き込む部分に先ほど控えた自分のものを貼り付ければ良い．
+[@bot1]のコードの場合は，!translateの後に英語を記入すると日本語に直してくれる．(ちょっと不便かも．)
+[@bot2]のコードの場合は，指定したチャンネルでの全ての日本語および英語のメッセージに対して自動で逆の言語に翻訳してくれる．(なかなか良い．)もちろん
+```zsh
+#指定チャンネル以外からのメッセージは無視
+if message.channel.id != Discord_channel_ID:
+    return
+```
+という部分を削除すれば全てのチャンネルで自動的に和英/英和翻訳をしてくれる．
+私は[@bot3]を参考に，メッセージに対して国旗のスタンプをつけるとその言語に翻訳してDMで送ってくれる仕様に変更した．[GitHub](https://github.com/yoshiyuki-miyamori/MacBookEnv)にdeepl.pyとして置いている．
+完成したファイルをビルドすれば，そのプログラム通りBotが動き出す．
+
+::: callout-warning
+ターミナルを閉じるとBotの活動も停止してしまう．常にBotを動かし続けるにはサーバーが必要である．
+色々探してみたが無料ではなかなか厳しそうだし，できたとしてもコロコロ変わるサービス内容に振り回されてそうであった．
+そんなに高いものでもないし課金するのも手だが，パソコンを一台ずっと起動し続けるという力業もある．
+:::
+
+　一度停止したBotを再起動するには，VSCodeでまたフォルダを開いて先ほどのvenvに切り替えてからビルドするか，同じ操作を`cd そのディレクトリ; source .venv/bin/activate; python3 ファイル名`でターミナルで実行すれば良い．
+例えば261院生室のiMacの場合は次のようになる:
+```zsh
+cd ~/documents/discord; source .venv/bin/activate; python3 deepl.py
+```
+
+# Bot再起動の自動化
+
+　macOSのパソコンをサーバーとして使う場合に，Botの再起動を(半)自動化するのに私が試した方法3つを紹介する．共存させるのはあまり良くないので，別の方法に変える時は前の設定を消すこと．最初のターミナルと同期させるのは自然に思いつく方法であり，少し美しさに欠けるものの非常に簡単に実装できる．
+残り2つはlaunchdというmacOSの機能を使うもので，ログイン時に起動させるLaunchAgentsと電源を入れた時に起動させるLaunchDaemonsがある．LaunchDaemonsはログイン前から実行させるので，必然的にパソコンの奥に入る必要があり設定が面倒である．LaunchAgentsは機能も良く，設定も基本的にホームディレクトリの下でできるので比較的簡単であり，バランスが良い．とはいえ機能はLaunchDaemonsが一番良いかと思いきや，実はインターネット接続等の問題で結局ログインしないとBotが起動しなかったので，
+結局現在はLaunchAgentsに落ち着いている．
+
+## ターミナルと同期させる
+
+　ターミナルの起動時に.zshrcが読み込まれるので，ここに先ほどのコマンドを書いておけば良いというのは自然な発想である．
+まずはnanoで開こう．
+```zsh
+nano ~/.zshrc
+```
+さて，色々考えた結果以下のように書くのが良いという結論に至った．
+```zsh
+(cd ~/documents/discord; source .venv/bin/activate; python3 deepl.py > .deepl.log 2>&1) &
+```
+これを書き込んで閉じれば完了である．以上で実はターミナルのオン/オフとBotのオン/オフが連動する．
+
+　全体としては`(CODE > .deepl.log 2>&1) &`という形をしている．
+CODEを実行するとそのターミナルはBotが占領してしまうので，
+バックグラウンドで実行したい．それが`CODE > .deepl.log 2>&1 &`という部分である．
+最後の`&`がバックグラウンドで実行せよという命令になっており，`CODE > .deepl.log`が，出力を.deepl.logというファイルに上書きせよという命令になっている．
+(`>`は上書きであった．)
+
+::: callout-tip
+CODE内で`cd ~/documents/discord`をしているので，
+.deepl.logというファイルは(ホームディレクトリではなく)プロジェクトのディレクトリに作成されることに注意．
+ログは見えても仕方ないので頭に`.`をつけて隠しファイルにしている．
+:::
+大事なのが`2>&1`である．実は正常な出力は1，エラーの出力は2という番号付けがされており，それぞれ別の経路を辿って出力されている．
+実は`CODE > .deepl.log`だけだと1番出力しか.deepl.logに送られておらず，2番出力がバックグラウンドから漏れてしまいうまくいかない．
+つまり`2>&1`は，`2`番出力も1番の出力先`&1`に書き込んでねと命令しているのである．(意味がわかりやすいようにこう書いてあるが，実際には`2>&1`で一つのコマンドである．)
+
+　これでいいかと思いきやもう一つ落とし穴がある．実はこのままだと環境を引きずってしまい，ターミナルを開くと(.venv)でプロジェクトのディレクトリからスタートしてしまう．環境を切り離すには`()`で囲めば良い．
+以上から先ほどのような命令文になるのである．
+
+## LaunchAgentsでログインと同期させる
+
+　launchdで使う拡張子は.plist($\leftarrow$ property list)である．
+まずはファイルを作成しよう．ここではdeepl.plistという名前にする．
+```zsh
+nano ~/Library/LaunchAgents/deepl.plist
+```
+次に設定を書き込もう．使う場合は適宜書き換えてほしい．
+```zsh
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>deepl</string>
+
+    <key>UserName</key>
+    <string>room261</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/room261/Documents/Discord/.venv/bin/python3</string>
+        <string>/Users/room261/Documents/Discord/deepl.py</string>
+    </array>
+    
+    <key>WorkingDirectory</key>
+    <string>/Users/room261/Documents/Discord</string>
+
+    <key>StandardOutPath</key>
+    <string>/Users/room261/Documents/Discord/.deepl.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/room261/Documents/Discord/.deepl.log</string>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>KeepAlive</key>
+    <true/>
+</dict>
+</plist>
+```
+最初の三行はおまじないで良い．その続きはそのままの意味である．
+RunAtLoadをtrueにしておくと，このファイルを読み込んだ時にBotが起動する．
+KeepAliveをtrueにしておくと，Botが落ちた場合に自動で再起動してくれる．
+
+　最後にこの設定を実行すれば完了である．
+```zsh
+launchctl unload ~/Library/LaunchAgents/deepl.plist
+launchctl load ~/Library/LaunchAgents/deepl.plist
+```
+普通一発でうまくはいかないので，2回目以降を想定して最初にunloadしている．
+
+## LaunchDaemonsで電源と同期させる
+
+　ログインする前から動かすのだから当然ユーザーのDocumentsにあるファイルを読み込むことなどできない．
+つまり，先ほど作成したプロジェクトのフォルダを/usr/local/に作り直す必要がある．
+(usrはUNIX system resourcesの略で，システムが使用するファイルを格納するディレクトリである．)
+一般にはホームディレクトリより奥は所有権が(ユーザーではなく)rootになっているため，sudoをつけて管理者権限を要求する必要がある．
+また，ここではなるべくCLIで操作するが，GUIで操作する場合はあるはずのファイルが見つからないことがよくある．
+そういう時は`shift + command + . `で隠しファイルを表示してみよう．
+
+　まずはディレクトリを作成する．例えばDiscordという名前にする場合は次の通り：
+```zsh
+sudo mkdir /usr/local/Discord
+```
+ここでmkdirはmake directoryである．
+今このフォルダの所有者はrootになっているのでユーザーに変更する：
+```zsh
+sudo chown room261 /usr/local/Discord
+```
+ここでchownはchange ownerであり，/usr/local/Discordの所有者をroom261に変更している．
+
+　VSCodeで/usr/local/Discordを開いたら，先ほどのdeepl.pyをコピーし，再び .venvを作り直しpackagesをinstallする．
+(.venvまでコピーするとパスがうまくいかない．)
+
+　あとはLaunchAgentsの時とパラレルである．まずはファイルを作成する．
+```zsh
+sudo nano /Library/LaunchDaemons/deepl.plist
+```
+次に設定を書き込む．
+```zsh
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>deepl</string>
+
+    <key>UserName</key>
+    <string>room261</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/local/Discord/.venv/bin/python3</string>
+        <string>/usr/local/Discord/deepl.py</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/usr/local/Discord</string>
+
+    <key>StandardOutPath</key>
+    <string>/usr/local/Discord/.deepl.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/usr/local/Discord/.deepl.log</string>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>KeepAlive</key>
+    <true/>
+</dict>
+</plist>
+```
+最後に実行する．
+```zsh
+sudo launchctl unload /Library/LaunchDaemons/deepl.plist
+sudo launchctl load /Library/LaunchDaemons/deepl.plist
+```
+::: callout-tip
+実は直前の二文は次の一文にまとめることもできる．
+```zsh
+sudo launchctl kickstart -k system/deepl
+```
+ctlはcontrolである．systemドメインのdeeplというラベルがついたものを起動している．
+(kickstartというのはstartの現代改良版コマンドである．)
+-kはkillオプションであり，既に実行中の場合はそれを停止してくれる．
+:::
+
