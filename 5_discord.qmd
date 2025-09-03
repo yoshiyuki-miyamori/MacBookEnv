@@ -59,8 +59,10 @@ if message.channel.id != Discord_channel_ID:
     return
 ```
 という部分を削除すれば全てのチャンネルで自動的に和英/英和翻訳をしてくれる．
-私は[@bot3]を参考に，メッセージに対して国旗のスタンプをつけるとその言語に翻訳してDMで送ってくれる仕様に変更した．[GitHub](https://github.com/yoshiyuki-miyamori/MacBookEnv)にdeepl.pyとして置いている．
+私は[@bot3]を参考に，メッセージに対して国旗のスタンプをつけるとその言語に翻訳してDMで送ってくれる仕様に変更した．[^1][GitHub](https://github.com/yoshiyuki-miyamori/MacBookEnv)にdeepl.pyとして置いている．
 完成したファイルをビルドすれば，そのプログラム通りBotが動き出す．
+
+[^1]: 私はプログラミングできないのでもちろんvibe codingである．Geminiに[@bot2]のファイルを渡して変更点を伝えた．
 
 ::: callout-warning
 ターミナルを閉じるとBotの活動も停止してしまう．常にBotを動かし続けるにはサーバーが必要である．
@@ -113,6 +115,14 @@ CODE内で`cd ~/documents/discord`をしているので，
 
 ## LaunchAgentsでログインと同期させる
 
+　実はlaunchdアプリにはDocumentsやDesktopへのアクセス権限がないようであり，ホームディレクトリ(またはより奥)に作り直す必要がある．しかしホームディレクトリの権限はユーザーが所持しているため`sudo`を使わなくていい点はLaunchDaemonsよりもラクだし，管理もしやすい．
+まずはディレクトリを作成する．例えばDiscordという名前にする場合は次の通り：
+```zsh
+mkdir ~/Discord
+```
+ここでmkdirはmake directoryである．VSCodeで~/Discordを開いたら，先ほどのdeepl.pyをコピーし，再び .venvを作り直しpackagesをinstallする．
+(.venvまでコピーするとパスがうまくいかない．)
+
 　launchdで使う拡張子は.plist($\leftarrow$ property list)である．
 まずはファイルを作成しよう．ここではdeepl.plistという名前にする．
 ```zsh
@@ -132,18 +142,18 @@ nano ~/Library/LaunchAgents/deepl.plist
 
     <key>ProgramArguments</key>
     <array>
-        <string>/Users/room261/Documents/Discord/.venv/bin/python3</string>
-        <string>/Users/room261/Documents/Discord/deepl.py</string>
+        <string>/Users/room261/Discord/.venv/bin/python3</string>
+        <string>/Users/room261/Discord/deepl.py</string>
     </array>
     
     <key>WorkingDirectory</key>
-    <string>/Users/room261/Documents/Discord</string>
+    <string>/Users/room261/Discord</string>
 
     <key>StandardOutPath</key>
-    <string>/Users/room261/Documents/Discord/.deepl.log</string>
+    <string>/Users/room261/Discord/.deepl.log</string>
 
     <key>StandardErrorPath</key>
-    <string>/Users/room261/Documents/Discord/.deepl.log</string>
+    <string>/Users/room261/Discord/.deepl.log</string>
 
     <key>RunAtLoad</key>
     <true/>
@@ -166,8 +176,8 @@ launchctl load ~/Library/LaunchAgents/deepl.plist
 
 ## LaunchDaemonsで電源と同期させる
 
-　ログインする前から動かすのだから当然ユーザーのDocumentsにあるファイルを読み込むことなどできない．
-つまり，先ほど作成したプロジェクトのフォルダを/usr/local/に作り直す必要がある．
+　ログインする前から動かすのだから当然ユーザーより先のファイルを読み込むことなどできない．
+つまり，今度は先ほど作成したプロジェクトのフォルダを/usr/local/に作り直す必要がある．
 (usrはUNIX system resourcesの略で，システムが使用するファイルを格納するディレクトリである．)
 一般にはホームディレクトリより奥は所有権が(ユーザーではなく)rootになっているため，sudoをつけて管理者権限を要求する必要がある．
 また，ここではなるべくCLIで操作するが，GUIで操作する場合はあるはずのファイルが見つからないことがよくある．
@@ -177,7 +187,6 @@ launchctl load ~/Library/LaunchAgents/deepl.plist
 ```zsh
 sudo mkdir /usr/local/Discord
 ```
-ここでmkdirはmake directoryである．
 今このフォルダの所有者はrootになっているのでユーザーに変更する：
 ```zsh
 sudo chown room261 /usr/local/Discord

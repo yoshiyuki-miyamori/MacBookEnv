@@ -1,7 +1,8 @@
+Discord_Token = "自分のDiscordのBotのトークンを貼り付ける"
+DeepL_Token = "自分のDeepLのAPIキーを貼り付ける"
+
 import discord
 import requests
-
-Discord_Token = "自分のDiscordのBotのトークンを貼り付ける"
 
 # --- リアクションと言語の対応 ---
 FLAG_TO_LANG = {
@@ -43,7 +44,6 @@ async def on_raw_reaction_add(payload):
     if target_emoji not in FLAG_TO_LANG:
         return
 
-    DeepL_Token = "自分のDeepLのAPIキーを貼り付ける"
     DeepL_API_URL = "https://api-free.deepl.com/v2/translate"
 
     try:
