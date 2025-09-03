@@ -24,7 +24,7 @@ format:
 
 ## 2025年9月
 
-- [Discordの翻訳Botを作る](5_python.html)
+- [Discordの翻訳Botを作る](5_discord.html)
 
 # Webサイトの作り方
 
