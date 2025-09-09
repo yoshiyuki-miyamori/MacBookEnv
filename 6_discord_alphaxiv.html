@@ -8,7 +8,7 @@
 
 <meta name="author" content="宮森祥行">
 
-<title>macOSで環境構築</title>
+<title>Discordで動くalphaXiv Botを作る</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -2144,11 +2144,7 @@ vertical-align: -.125em;
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#目次" id="toc-目次" class="nav-link active" data-scroll-target="#目次">目次</a>
-  <ul class="collapse">
-  <li><a href="#年8月" id="toc-年8月" class="nav-link" data-scroll-target="#年8月">2025年8月</a></li>
-  <li><a href="#年9月" id="toc-年9月" class="nav-link" data-scroll-target="#年9月">2025年9月</a></li>
-  </ul></li>
+  <li><a href="#プログラムの作成" id="toc-プログラムの作成" class="nav-link active" data-scroll-target="#プログラムの作成">プログラムの作成</a></li>
   </ul>
 </nav>
 </div>
@@ -2156,7 +2152,7 @@ vertical-align: -.125em;
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">macOSで環境構築</h1>
+<h1 class="title">Discordで動くalphaXiv Botを作る</h1>
 </div>
 
 
@@ -2185,32 +2181,14 @@ vertical-align: -.125em;
 </header>
 
 
-<p><a href="https://github.com/yoshiyuki-miyamori/MacBookEnv">GitHub</a></p>
-<section id="目次" class="level1">
-<h1>目次</h1>
-<section id="年8月" class="level2">
-<h2 class="anchored" data-anchor-id="年8月">2025年8月</h2>
-<ul>
-<li><a href="1_vscode.html">macOSでVSCodeの環境構築</a>
-<ul>
-<li><a href="2_usage.html">VSCodeでのTeXの使い方</a></li>
-</ul></li>
-<li><a href="3_programming.html">VSCodeでプログラミングの環境構築</a></li>
-<li><a href="4_generative_ai.html">最近のAI雑談</a></li>
-</ul>
-</section>
-<section id="年9月" class="level2">
-<h2 class="anchored" data-anchor-id="年9月">2025年9月</h2>
-<ul>
-<li><a href="5_discord.html">Discordで動くDeepL Botを作る</a>
-<ul>
-<li><a href="6_discord_alphaxiv.html">Discordで動くalphaXiv Botを作る</a> # Webサイトの作り方</li>
-</ul></li>
-</ul>
-<p>　GitHubを使って.htmlファイルをウェブサイトとして公開することができる．</p>
-<p>　まず必ずindex.htmlというファイルを作る必要があるが，Quartoを使う場合は，index.qmdというファイルを<code>format: html</code>で作れば良い．名前は必ず<code>index</code>でなければならない．一つならこれだけで良いが，複数ある場合は，index.htmlをトップページとしてそこに他のリンクを貼る形になる．</p>
-<p>　(index.html含む)公開したい.htmlファイルらをpublic repositoryにpushした後， GitHubのサイトでそのリポジトリを開き，そのリポジトリ内のSettingsをクリックし，左のメニューからPagesを選ぶ． Branchの部分がNoneになっていると思うので，それをmainに変えてからSaveをクリックし，少ししてからブラウザの更新ボタンを押すと，<code>https://ユーザ名.github.io/リポジトリ名/</code>というURLが表示され，公開完了である．</p>
-</section>
+<p>　私は先輩にarXivの，例えば私だったらstatistics theoryのページで，毎日新着論文のタイトルをチェックして，興味が湧いたものはちょっと目を通したりというのをコツコツやるといいですよと教えてもらった．しかし3日坊主でやめてしまった．やっぱりトレンドを知ったり自分の世界を広げるのが目的なのだろうからと，全然知らないものにも目を通そうとして面倒になってやめてしまう．<br>
+　そこで安直に思いつくのはAIに2ページほどの日本語に要約させるというものだが，雑な指示だとあまり良いものにならないし，毎日毎論文やるのは結構嫌になる作業である．<br>
+　そこで自動化しようと思うわけだが，いや待てよ，誰か既に作ってるだろと思い調べると案の定見つかった．それがalphaXivである．使い方は簡単で，まずはarXivで読みたい論文のページを開き，そのリンクのarxiv.orgの部分をalphaxiv.orgに書き換える． 移動したら上にあるBlogボタンをクリックする．まだ誰も要約を作成していない場合は，Generate Overviewボタンがあるのでそれをクリックして1-2分待つと，要約が(英語で)作成される．誰かが作っていた場合はいきなりそれが表示される．日本語にしたい場合は中央上部のENボタンをクリックすると，日本語が選べる．(自分が要約を作成した場合はENボタンが出るまでに10秒ほどかかる．また，専門用語の和訳の精度はあまり良くない．) しかし私はどうしようもなく怠惰なのでこれさえ3日坊主で終えてしまった．一つひとつリンクを書き換えるのが想像以上に面倒なのだ．そこでこのルーティーンを代わってくれるBotを作ることにした．やり方はDeepLの翻訳Botとほぼ同じなのでそちらを参照されたい．</p>
+<section id="プログラムの作成" class="level1">
+<h1>プログラムの作成</h1>
+<p>　先ほど述べた事情から，arXivのstatistics theoryの新着論文があれば自動でそのタイトルとalphaXivの日本語要約のリンクを送ってくれるBotを作ることが目標である． このBotにより，当たり前だが通知が来るようになり，さらにリンクを踏むだけで目的のページへ飛べる．そして意外と大きいのが，スマホで読めるようになるのである．(もちろんBotを使わなくてもスマホでできるが，だるくて私には事実上不可能である．)また，リアクションをつけることでチェックした記録をつけることもできる．こういうのは些細なようで案外馬鹿にできない．流石にここまで心理的ハードルを下げたらジムの合間などで毎日チェックできると信じている．</p>
+<p>　では実装の話をしよう．arXivは課金システムなどないので，APIは公開されており，自分で取得する必要はないのがDeepLとの違いである．Botのトークンは前と同じように取得すること． また，今回はDiscordのalphaXiv専用チャンネルに送りたいため，チャンネルIDを取得する必要がある．Discordの設定を開き詳細設定を選択し，開発者モードをオンにする．その後，メッセージを送りたいチャンネルを右クリックし，チャンネルIDをコピーをクリックすれば良い．<br>
+　今回もvibe codingで作成したファイルを<a href="https://github.com/yoshiyuki-miyamori/MacBookEnv">GitHub</a>にalphaxiv.pyとして置いてある． 先ほどのBotトークンとチャンネルID(必要なら分野や開始時刻/終了時刻も)書き換えてから，前の記事と同じようにターミナルやlaunchdで動かせば良い．導入時には何もメッセージは送られず，次にarXivが更新されたタイミングで初めて動く．discord.pyとrequests以外のパッケージは標準で入っているので<code>pip install</code>をする必要はない．またこの二つはDeepL Botでも用いたものなのでdeepl.pyと同じ場所に置く場合は同じ仮想環境をactivateするだけで良い．</p>
 </section>
 
 </main>

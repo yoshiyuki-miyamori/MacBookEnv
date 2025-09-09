@@ -8,7 +8,7 @@
 
 <meta name="author" content="宮森祥行">
 
-<title>Discordの翻訳Botを作る</title>
+<title>Discordで動くDeepL Botを作る</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -2353,7 +2353,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Discordの翻訳Botを作る</h1>
+<h1 class="title">Discordで動くDeepL Botを作る</h1>
 </div>
 
 
@@ -2370,7 +2370,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2025年9月3日</p>
+      <p class="date">2025年9月9日</p>
     </div>
   </div>
   
@@ -2433,7 +2433,7 @@ Warning
 </section>
 <section id="bot再起動の自動化" class="level1">
 <h1>Bot再起動の自動化</h1>
-<p>　macOSのパソコンをサーバーとして使う場合に，Botの再起動を(半)自動化するのに私が試した方法3つを紹介する．共存させるのはあまり良くないので，別の方法に変える時は前の設定を消すこと．最初のターミナルと同期させるのは自然に思いつく方法であり，少し美しさに欠けるものの非常に簡単に実装できる． 残り2つはlaunchdというmacOSの機能を使うもので，ログイン時に起動させるLaunchAgentsと電源を入れた時に起動させるLaunchDaemonsがある．LaunchDaemonsはログイン前から実行させるので，必然的にパソコンの奥に入る必要があり設定が面倒である．LaunchAgentsは機能も良く，設定も基本的にホームディレクトリの下でできるので比較的簡単であり，バランスが良い．とはいえ機能はLaunchDaemonsが一番良いかと思いきや，実はインターネット接続等の問題で結局ログインしないとBotが起動しなかったので， 結局現在はLaunchAgentsに落ち着いている．</p>
+<p>　macOSのパソコンをサーバーとして使う場合に，Botの再起動を(半)自動化するのに私が試した方法3つを紹介する．共存させるのはあまり良くないので，別の方法に変える時は前の設定を消すこと．最初のターミナルと同期させるのは自然に思いつく方法であり，少し美しさに欠けるものの非常に簡単に実装できる．残り2つはlaunchdというmacOSの機能を使うもので，ログイン時に起動させるLaunchAgentsと電源を入れた時に起動させるLaunchDaemonsがある．(ただし，LaunchDaemonsでもBotがインターネット接続を要したりする関係で結局ログインしないとBotが起動しないこともある．)どちらも設定はそこそこ面倒だが，一度やってしまえばあとは何も気にしなくていい．今サーバーのiMacは複数のアカウントで使われているため，LaunchDaemonsで動かしている．</p>
 <section id="ターミナルと同期させる" class="level2">
 <h2 class="anchored" data-anchor-id="ターミナルと同期させる">ターミナルと同期させる</h2>
 <p>　ターミナルの起動時に.zshrcが読み込まれるので，ここに先ほどのコマンドを書いておけば良いというのは自然な発想である． まずはnanoで開こう．</p>
@@ -2474,22 +2474,22 @@ Tip
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>string<span class="op">&gt;</span>deepl<span class="op">&lt;</span>/string<span class="op">&gt;</span></span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>key<span class="op">&gt;</span>UserName<span class="op">&lt;</span>/key<span class="op">&gt;</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>string<span class="op">&gt;</span>room261<span class="op">&lt;</span>/string<span class="op">&gt;</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>string<span class="op">&gt;</span>miyamoriyoshiyuki<span class="op">&lt;</span>/string<span class="op">&gt;</span></span>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>key<span class="op">&gt;</span>ProgramArguments<span class="op">&lt;</span>/key<span class="op">&gt;</span></span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>array<span class="op">&gt;</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>        <span class="op">&lt;</span>string<span class="op">&gt;</span>/Users/room261/Discord/.venv/bin/python3<span class="op">&lt;</span>/string<span class="op">&gt;</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>        <span class="op">&lt;</span>string<span class="op">&gt;</span>/Users/room261/Discord/deepl.py<span class="op">&lt;</span>/string<span class="op">&gt;</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>        <span class="op">&lt;</span>string<span class="op">&gt;</span>/Users/miyamoriyoshiyuki/Discord/.venv/bin/python3<span class="op">&lt;</span>/string<span class="op">&gt;</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>        <span class="op">&lt;</span>string<span class="op">&gt;</span>/Users/miyamoriyoshiyuki/Discord/deepl.py<span class="op">&lt;</span>/string<span class="op">&gt;</span></span>
 <span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>/array<span class="op">&gt;</span></span>
 <span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>key<span class="op">&gt;</span>WorkingDirectory<span class="op">&lt;</span>/key<span class="op">&gt;</span></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>string<span class="op">&gt;</span>/Users/room261/Discord<span class="op">&lt;</span>/string<span class="op">&gt;</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>string<span class="op">&gt;</span>/Users/miyamoriyoshiyuki/Discord<span class="op">&lt;</span>/string<span class="op">&gt;</span></span>
 <span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>key<span class="op">&gt;</span>StandardOutPath<span class="op">&lt;</span>/key<span class="op">&gt;</span></span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>string<span class="op">&gt;</span>/Users/room261/Discord/.deepl.log<span class="op">&lt;</span>/string<span class="op">&gt;</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>string<span class="op">&gt;</span>/Users/miyamoriyoshiyuki/Discord/.deepl.log<span class="op">&lt;</span>/string<span class="op">&gt;</span></span>
 <span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>key<span class="op">&gt;</span>StandardErrorPath<span class="op">&lt;</span>/key<span class="op">&gt;</span></span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>string<span class="op">&gt;</span>/Users/room261/Discord/.deepl.log<span class="op">&lt;</span>/string<span class="op">&gt;</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>string<span class="op">&gt;</span>/Users/miyamoriyoshiyuki/Discord/.deepl.log<span class="op">&lt;</span>/string<span class="op">&gt;</span></span>
 <span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>key<span class="op">&gt;</span>RunAtLoad<span class="op">&lt;</span>/key<span class="op">&gt;</span></span>
 <span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>true/<span class="op">&gt;</span></span>
@@ -2510,8 +2510,8 @@ Tip
 <p>　まずはディレクトリを作成する．例えばDiscordという名前にする場合は次の通り：</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> mkdir /usr/local/Discord</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>今このフォルダの所有者はrootになっているのでユーザーに変更する：</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> chown room261 /usr/local/Discord</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>ここでchownはchange ownerであり，/usr/local/Discordの所有者をroom261に変更している．</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> chown miyamoriyoshiyuki /usr/local/Discord</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ここでchownはchange ownerであり，/usr/local/Discordの所有者を変更している．</p>
 <p>　VSCodeで/usr/local/Discordを開いたら，先ほどのdeepl.pyをコピーし，再び .venvを作り直しpackagesをinstallする． (.venvまでコピーするとパスがうまくいかない．)</p>
 <p>　あとはLaunchAgentsの時とパラレルである．まずはファイルを作成する．</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> nano /Library/LaunchDaemons/deepl.plist</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -2524,7 +2524,7 @@ Tip
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>string<span class="op">&gt;</span>deepl<span class="op">&lt;</span>/string<span class="op">&gt;</span></span>
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>key<span class="op">&gt;</span>UserName<span class="op">&lt;</span>/key<span class="op">&gt;</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>string<span class="op">&gt;</span>room261<span class="op">&lt;</span>/string<span class="op">&gt;</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>string<span class="op">&gt;</span>miyamoriyoshiyuki<span class="op">&lt;</span>/string<span class="op">&gt;</span></span>
 <span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>key<span class="op">&gt;</span>ProgramArguments<span class="op">&lt;</span>/key<span class="op">&gt;</span></span>
 <span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>array<span class="op">&gt;</span></span>
@@ -2551,21 +2551,6 @@ Tip
 <p>最後に実行する．</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> launchctl unload /Library/LaunchDaemons/deepl.plist</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> launchctl load /Library/LaunchDaemons/deepl.plist</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>実は直前の二文は次の一文にまとめることもできる．</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> launchctl kickstart <span class="at">-k</span> system/deepl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>ctlはcontrolである．systemドメインのdeeplというラベルがついたものを起動している． (kickstartというのはstartの現代改良版コマンドである．) -kはkillオプションであり，既に実行中の場合はそれを停止してくれる．</p>
-</div>
-</div>
 
 </section>
 </section>

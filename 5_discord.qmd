@@ -1,5 +1,5 @@
 ---
-title: "Discordの翻訳Botを作る"
+title: "Discordで動くDeepL Botを作る"
 author: "宮森祥行"
 date: last-modified
 format:
@@ -78,9 +78,7 @@ cd ~/documents/discord; source .venv/bin/activate; python3 deepl.py
 
 # Bot再起動の自動化
 
-　macOSのパソコンをサーバーとして使う場合に，Botの再起動を(半)自動化するのに私が試した方法3つを紹介する．共存させるのはあまり良くないので，別の方法に変える時は前の設定を消すこと．最初のターミナルと同期させるのは自然に思いつく方法であり，少し美しさに欠けるものの非常に簡単に実装できる．
-残り2つはlaunchdというmacOSの機能を使うもので，ログイン時に起動させるLaunchAgentsと電源を入れた時に起動させるLaunchDaemonsがある．LaunchDaemonsはログイン前から実行させるので，必然的にパソコンの奥に入る必要があり設定が面倒である．LaunchAgentsは機能も良く，設定も基本的にホームディレクトリの下でできるので比較的簡単であり，バランスが良い．とはいえ機能はLaunchDaemonsが一番良いかと思いきや，実はインターネット接続等の問題で結局ログインしないとBotが起動しなかったので，
-結局現在はLaunchAgentsに落ち着いている．
+　macOSのパソコンをサーバーとして使う場合に，Botの再起動を(半)自動化するのに私が試した方法3つを紹介する．共存させるのはあまり良くないので，別の方法に変える時は前の設定を消すこと．最初のターミナルと同期させるのは自然に思いつく方法であり，少し美しさに欠けるものの非常に簡単に実装できる．残り2つはlaunchdというmacOSの機能を使うもので，ログイン時に起動させるLaunchAgentsと電源を入れた時に起動させるLaunchDaemonsがある．(ただし，LaunchDaemonsでもBotがインターネット接続を要したりする関係で結局ログインしないとBotが起動しないこともある．)どちらも設定はそこそこ面倒だが，一度やってしまえばあとは何も気にしなくていい．今サーバーのiMacは複数のアカウントで使われているため，LaunchDaemonsで動かしている．
 
 ## ターミナルと同期させる
 
@@ -138,22 +136,22 @@ nano ~/Library/LaunchAgents/deepl.plist
     <string>deepl</string>
 
     <key>UserName</key>
-    <string>room261</string>
+    <string>miyamoriyoshiyuki</string>
 
     <key>ProgramArguments</key>
     <array>
-        <string>/Users/room261/Discord/.venv/bin/python3</string>
-        <string>/Users/room261/Discord/deepl.py</string>
+        <string>/Users/miyamoriyoshiyuki/Discord/.venv/bin/python3</string>
+        <string>/Users/miyamoriyoshiyuki/Discord/deepl.py</string>
     </array>
     
     <key>WorkingDirectory</key>
-    <string>/Users/room261/Discord</string>
+    <string>/Users/miyamoriyoshiyuki/Discord</string>
 
     <key>StandardOutPath</key>
-    <string>/Users/room261/Discord/.deepl.log</string>
+    <string>/Users/miyamoriyoshiyuki/Discord/.deepl.log</string>
 
     <key>StandardErrorPath</key>
-    <string>/Users/room261/Discord/.deepl.log</string>
+    <string>/Users/miyamoriyoshiyuki/Discord/.deepl.log</string>
 
     <key>RunAtLoad</key>
     <true/>
@@ -189,9 +187,9 @@ sudo mkdir /usr/local/Discord
 ```
 今このフォルダの所有者はrootになっているのでユーザーに変更する：
 ```zsh
-sudo chown room261 /usr/local/Discord
+sudo chown miyamoriyoshiyuki /usr/local/Discord
 ```
-ここでchownはchange ownerであり，/usr/local/Discordの所有者をroom261に変更している．
+ここでchownはchange ownerであり，/usr/local/Discordの所有者を変更している．
 
 　VSCodeで/usr/local/Discordを開いたら，先ほどのdeepl.pyをコピーし，再び .venvを作り直しpackagesをinstallする．
 (.venvまでコピーするとパスがうまくいかない．)
@@ -210,7 +208,7 @@ sudo nano /Library/LaunchDaemons/deepl.plist
     <string>deepl</string>
 
     <key>UserName</key>
-    <string>room261</string>
+    <string>miyamoriyoshiyuki</string>
 
     <key>ProgramArguments</key>
     <array>
@@ -240,13 +238,3 @@ sudo nano /Library/LaunchDaemons/deepl.plist
 sudo launchctl unload /Library/LaunchDaemons/deepl.plist
 sudo launchctl load /Library/LaunchDaemons/deepl.plist
 ```
-::: callout-tip
-実は直前の二文は次の一文にまとめることもできる．
-```zsh
-sudo launchctl kickstart -k system/deepl
-```
-ctlはcontrolである．systemドメインのdeeplというラベルがついたものを起動している．
-(kickstartというのはstartの現代改良版コマンドである．)
--kはkillオプションであり，既に実行中の場合はそれを停止してくれる．
-:::
-

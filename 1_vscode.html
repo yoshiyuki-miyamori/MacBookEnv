@@ -2235,7 +2235,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2025年9月2日</p>
+      <p class="date">2025年9月9日</p>
     </div>
   </div>
   
@@ -2276,7 +2276,9 @@ vertical-align: -.125em;
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">whoami</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>　今回は使わないが，カレントディレクトリを変えたいときは，<code>cd パス</code>を流せば良い．cdはchange directoryである．例えば</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/Desktop</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>と流してみよう．<code>ユーザー名@ホスト名 Desktop %</code>に変わったはずである．変えてもらったところ悪いが<code>cd ~</code>でホームディレクトリに戻しておこう．</p>
+<p>と流してみよう．<code>ユーザー名@ホスト名 Desktop %</code>に変わったはずである．ホームディレクトリは<code>~</code>で表したが，カレントディレクトリは<code>.</code>で表せる．これは案外便利である．また，現在より一つ上の親ディレクトリは<code>..</code>で表せる．試しに</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ..</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>と流してみよう．ホームディレクトリに戻ってきたはずである．</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2287,7 +2289,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>　実は<code>cd</code>だけでもホームディレクトリに戻れる．また，<code>cd カレントディレクトリ/目的のディレクトリ</code>の形の時は<code>cd 目的のディレクトリ</code>に省略できる．だからさっきの<code>cd ~/Desktop</code>は実は<code>cd Desktop</code>でも良かった． また，macOSではフォルダ名やファイル名の大文字と小文字は区別されないので，例えば<code>cd ~/Desktop</code>と<code>cd ~/desktop</code>は同じである．</p>
+<p>　実は<code>cd</code>だけでもホームディレクトリに戻れる．また，<code>cd カレントディレクトリ/目的のディレクトリ</code>の形の時は，もちろん<code>cd ./目的のディレクトリ</code>と書いてもいいし，実は<code>cd 目的のディレクトリ</code>まで省略しても良い．だからさっきの<code>cd ~/Desktop</code>は<code>cd ./Desktop</code>でも<code>cd Desktop</code>でも良かった． また，macOSではフォルダ名やファイル名の大文字と小文字は区別されないので，例えば<code>cd ~/Desktop</code>と<code>cd ~/desktop</code>は同じである．</p>
 </div>
 </div>
 <p>　MacBookにはnanoというターミナル上で動くテキストエディタがdefaultでinstallされている．nanoを使うとGUIに近い感覚で作業でき，コマンドよりは煩雑だがわかりやすいのでこのpdfでは積極的に使うことにするが，慣れてくるとnanoを使うよりコマンドの方が便利に感じてくると思う．</p>
@@ -2306,14 +2308,14 @@ Tip
 </div>
 </div>
 <p>　echoは表示させるコマンドで，例えば</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&#39;Hello, zsh&#39;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&#39;Hello, zsh&#39;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>と流すと<code>Hello, zsh</code>と返ってくる．</p>
 <p>　<code>$CODE</code>や<code>${CODE}</code>でCODEに仕舞われている中身を展開でき，<code>$(CODE)</code>でCODEを実行した時の結果を展開できる．このpdfではコードを読んだ時に意味が理解できればいいのでこれ以上深掘りしない．例えば</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="va">$PATH</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="va">$PATH</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>でPATHの中身を確認できる．さてここで，</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="va">a</span><span class="op">=</span><span class="st">&quot;echo &#39;Hello, zsh&#39;&quot;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="va">a</span><span class="op">=</span><span class="st">&quot;echo &#39;Hello, zsh&#39;&quot;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>という命令を<code>a</code>に仕舞い，これを呼び出して実行して<code>Hello, zsh</code>と表示させたいとする．安直に<code>a</code>を実行すると<code>zsh: command not found: a</code>とエラーになる．では<code>$a</code>ならどうか．実はこれも<code>zsh: command not found: echo &#39;Hello, zsh&#39;</code>とエラーになる．我々が望むのは<code>a</code>の中身を<code>echo &#39;Hello, zsh&#39;</code>と展開した本来の形で評価してから実行してもらうことである．それを叶えるのが<code>eval</code>というコマンドである．</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">eval</span> <span class="va">$a</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">eval</span> <span class="va">$a</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>を実行すれば，晴れて<code>Hello, zsh</code>と表示される．evalはevaluationである．初見だと<code>eval</code>を書く意味が分かりにくいと思うが，格納した命令を実行しようとしたりすると必要になる．</p>
 <p>　他にも<code>echo &#39;内容&#39; &gt;&gt; ファイルのあるディレクトリ/ファイル</code>でファイルに書き込むことができる．これは<code>nano ファイルのあるディレクトリ/ファイル</code>でファイルを開いて直接書き込むのと同じである．<code>&gt;&gt;</code>は追記だが，<code>&gt;</code>は上書きなので注意．</p>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -2327,7 +2329,7 @@ Note
 </div>
 <div class="callout-body-container callout-body">
 <p><code>~</code>はホームディレクトリを指すが，正確にはホームディレクトリは<code>HOME</code>変数のディレクトリを指しており，defaultだと<code>/Users/ユーザー名</code>である：</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="va">$HOME</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="va">$HOME</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>普通は書き換えないが，書き換えることも当然できる．</p>
 </div>
 </div>
@@ -2349,18 +2351,18 @@ Tip
 </div>
 </div>
 <p>　さて，インストールがまだの場合はHomebrewのホームページにあるコマンドをコピーしてターミナルにペーストしてinstallしよう．(Homebrewのおかげで以降こういう<code>curl</code>を使ったコードを書く必要はないため，これはおまじないで良い．)途中passcodeを打ったりしないといけないがその辺は今後書かないので，ターミナルの指示に従って適当にやってほしい(打ったpasscodeは見えないがちゃんと打てている)．インストール後にNext stepsが出るので指示に従ってコピペしてPATHを通そう．親切にコピペで済むようにしてくれているが，ここは少し理解しておいた方が良いと思うので説明する．自分の時の指示のメモをとってなかったので正確にはわからないが，おそらく</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&#39;eval $(/opt/homebrew/bin/brew shellenv)&#39;</span> <span class="op">&gt;&gt;</span> ~/.zprofile</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">eval</span> <span class="va">$(</span><span class="ex">/opt/homebrew/bin/brew</span> shellenv<span class="va">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&#39;eval $(/opt/homebrew/bin/brew shellenv)&#39;</span> <span class="op">&gt;&gt;</span> ~/.zprofile</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">eval</span> <span class="va">$(</span><span class="ex">/opt/homebrew/bin/brew</span> shellenv<span class="va">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>のようなコードだと思う．さて，<code>eval $(/opt/homebrew/bin/brew shellenv)</code>をひと塊として全体の構造を見ると，</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&#39;CODE&#39;</span> <span class="op">&gt;&gt;</span> ~/.zprofile</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ex">CODE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&#39;CODE&#39;</span> <span class="op">&gt;&gt;</span> ~/.zprofile</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="ex">CODE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>となっている．一行目はコードをzshの設定ファイル.zprofileに書き込んでいる．.zprifileはzshへのログイン時に読み込まれるので，この設定を反映させるには一度ターミナルを閉じて再ログインする必要がある．そうせずとも今すぐに反映させるため，親切に2行目に直接そのコード実行するように書いてくれている．<code>nano ~/.zprofile</code>で書かれていることを確認してみよう．さて，そのコード<code>eval $(/opt/homebrew/bin/brew shellenv)</code>を見てみると，<code>eval $(CODE)</code>の形をしている．つまりコマンド<code>/opt/homebrew/bin/brew shellenv</code>を実行した時の出力を実行せよという命令である．shellenvはshell environmentである． 最近のMacBookの場合には通常次のような出力になる．</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">HOMEBREW_PREFIX</span><span class="op">=</span><span class="st">&quot;/opt/homebrew&quot;</span><span class="kw">;</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">HOMEBREW_CELLAR</span><span class="op">=</span><span class="st">&quot;/opt/homebrew/Cellar&quot;</span><span class="kw">;</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">HOMEBREW_REPOSITORY</span><span class="op">=</span><span class="st">&quot;/opt/homebrew&quot;</span><span class="kw">;</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">PATH</span><span class="op">=</span><span class="st">&quot;/opt/homebrew/bin:/opt/homebrew/sbin:</span><span class="va">$PATH</span><span class="st">&quot;</span><span class="kw">;</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">MANPATH</span><span class="op">=</span><span class="st">&quot;/opt/homebrew/share/man:</span><span class="va">$MANPATH</span><span class="st">&quot;</span><span class="kw">;</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">INFOPATH</span><span class="op">=</span><span class="st">&quot;/opt/homebrew/share/info:</span><span class="va">$INFOPATH</span><span class="st">&quot;</span><span class="kw">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">HOMEBREW_PREFIX</span><span class="op">=</span><span class="st">&quot;/opt/homebrew&quot;</span><span class="kw">;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">HOMEBREW_CELLAR</span><span class="op">=</span><span class="st">&quot;/opt/homebrew/Cellar&quot;</span><span class="kw">;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">HOMEBREW_REPOSITORY</span><span class="op">=</span><span class="st">&quot;/opt/homebrew&quot;</span><span class="kw">;</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">PATH</span><span class="op">=</span><span class="st">&quot;/opt/homebrew/bin:/opt/homebrew/sbin:</span><span class="va">$PATH</span><span class="st">&quot;</span><span class="kw">;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">MANPATH</span><span class="op">=</span><span class="st">&quot;/opt/homebrew/share/man:</span><span class="va">$MANPATH</span><span class="st">&quot;</span><span class="kw">;</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">INFOPATH</span><span class="op">=</span><span class="st">&quot;/opt/homebrew/share/info:</span><span class="va">$INFOPATH</span><span class="st">&quot;</span><span class="kw">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>つまり，既存のパス<code>$PATH</code>の前に，<code>/opt/homebrew/sbin</code>と<code>/opt/homebrew/bin</code> というhomebrewがinstallしたものが仕舞われているディレクトリを追加して， それを新たな<code>PATH</code>として代入している． (既存のPATHの「前」に追加することで，MacbookにdefaultでinstallされているものよりもHomebrewでinstallした新しいものを使ってくれる．)</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -2373,17 +2375,17 @@ Note
 </div>
 <div class="callout-body-container callout-body">
 <p>　例えば<span class="citation" data-cites="shellenv">(<a href="#ref-shellenv" role="doc-biblioref">McQuaid 2024</a>)</span>でshellenvの中身をみると，場合分けが非常に多くてややこしいのだが，<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">PATH</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${HOMEBREW_PREFIX}</span><span class="st">/bin:</span><span class="va">${HOMEBREW_PREFIX}</span><span class="st">/sbin</span><span class="va">${PATH</span><span class="op">+</span><span class="st">:</span><span class="va">$PATH}</span><span class="st">&quot;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">PATH</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${HOMEBREW_PREFIX}</span><span class="st">/bin:</span><span class="va">${HOMEBREW_PREFIX}</span><span class="st">/sbin</span><span class="va">${PATH</span><span class="op">+</span><span class="st">:</span><span class="va">$PATH}</span><span class="st">&quot;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>という部分がメインであり，<code>${HOMEBREW_PREFIX}</code>に<code>/opt/homebrew</code>を代入したり最後のテクニカルな処理を簡略化したりすると，これは大体</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">PATH</span><span class="op">=</span><span class="st">&quot;/opt/homebrew/bin:/opt/homebrew/sbin:</span><span class="va">$PATH</span><span class="st">&quot;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">PATH</span><span class="op">=</span><span class="st">&quot;/opt/homebrew/bin:/opt/homebrew/sbin:</span><span class="va">$PATH</span><span class="st">&quot;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>というコードになっている．</p>
 </div>
 </div>
 <p>　実際</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="va">$PATH</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="va">$PATH</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>でPATHの中身を確認してみれば，先頭に<code>/opt/homebrew/bin:/opt/homebrew/sbin:</code>が追加されているはずである．</p>
 <p>　インストール済の場合は</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> update</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> update</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>を流しupdateしておこう．</p>
 </section>
 <section id="vscode" class="level1">
@@ -2391,10 +2393,10 @@ Note
 <p>　VSCode(Visual Studio Code)とは高機能なコードエディター，いわゆるIDE (Integrated Development Environment; 統合開発環境)である．メリットは皆さん承知だと思う．ちなみに最近はCursorやWindsurfといった初めからAIが搭載されているIDEも人気があるが，有料である．<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
 <p>　VSCodeはCopilot Proが学生無料だし，Microsoftのものなので中長期的には覇権を取ると予想されている．(MicrosoftがGitHubを持っていることが大きい．)</p>
 <p>　閑話休題．インストールしていない場合は</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install <span class="at">--cask</span> visual-studio-code</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install <span class="at">--cask</span> visual-studio-code</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>を流してinstallしよう．</p>
 <p>　インストール済の場合は</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> upgrade <span class="at">--cask</span> visual-studio-code</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> upgrade <span class="at">--cask</span> visual-studio-code</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>を流しVSCodeをupdateしておこう．</p>
 <p>　日本語にしたいときは，左のサイドバーのextensionsから<code>Japanese Language Pack for Visual Studio Code</code>をinstallしよう．その後VSCode上部の検索窓で<code>&gt; Configure Display Language</code>から変更できる．configureは設定するという意味で，configの形でファイル名によく登場する．</p>
 </section>
@@ -2402,27 +2404,27 @@ Note
 <h1>Git</h1>
 <p>　Gitとはローカルなバージョン管理システムである．GitはCLIなので若干とっつきづらいが，VSCodeを使うと(主要な機能を)あたかもGUIのように操作できる．</p>
 <p>　インストールがまだの場合は</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>をターミナルに流してinstallしよう．</p>
 <p>　インストール済の場合は</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> update git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> update git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>をターミナルに流しhomebrewをupdateしておこう．</p>
 <p>　次にGitの設定が書いてある.gitconfigというファイル(ホームディレクトリにある)をnanoで開こう．</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> ~/.gitconfig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> ~/.gitconfig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>　まずはユーザー名とメールアドレスを登録する必要がある．まだの場合は書き込もう．ユーザー名はGitHubのものと合わせておきたいが，GitHub Copilot Proを学生特典として無料で使うにはGitHubのユーザー名はフルネームにしないといけないので，<code>yoshiyuki-miyamori</code>のように書いておこう．</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">[user]</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="ex">name</span> <span class="kw">=</span> “ユーザー名”</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="ex">email</span> <span class="kw">=</span> “メールアドレス”</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">[user]</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="ex">name</span> <span class="kw">=</span> “ユーザー名”</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="ex">email</span> <span class="kw">=</span> “メールアドレス”</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>　使い方のpdfを見ればわかるが，Gitはtreeのような形でバージョン管理をしており，最初のbranchの名前がdefaultだとmasterになっている．しかしこれはmaster/slaveを連想させるので良くないとのことで，近年はmainとするのが普通らしい．こだわりがなければ変えておこう．</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">[init]</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="ex">defaultBranch</span> <span class="kw">=</span> main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">[init]</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="ex">defaultBranch</span> <span class="kw">=</span> main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>　次にGitのeditorとしてVSCodeを使うように設定する．codeはVSCodeのことである．また二つ目の設定はファイル名に日本語を使えるようにするための設定である．</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">[core]</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="ex">editor</span> <span class="kw">=</span> code <span class="at">--wait</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="ex">quotepath</span> <span class="kw">=</span> false</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">[core]</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="ex">editor</span> <span class="kw">=</span> code <span class="at">--wait</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="ex">quotepath</span> <span class="kw">=</span> false</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>　枝分かれされたbranchをmergeするときにconflictが起きた場合，解決するtoolとしてVSCodeを使うように設定しておく．(ただしmergeは使い方のpdfでは説明しない．)</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">[merge]</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="ex">tool</span> <span class="kw">=</span> code <span class="at">--wait</span> <span class="dt">\&quot;</span><span class="va">$MERGED</span><span class="dt">\&quot;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">[merge]</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="ex">tool</span> <span class="kw">=</span> code <span class="at">--wait</span> <span class="dt">\&quot;</span><span class="va">$MERGED</span><span class="dt">\&quot;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>　書き終わったらnanoを閉じる．</p>
 <p>　最後にVSCodeのサイドバーの拡張機能(extensions)からGit Graphをinstallしておこう．</p>
 </section>
@@ -2432,23 +2434,23 @@ Note
 <p>　まだの人はGitHubはホームページからサインアップする．Gitのところで言ったように，<code>yoshiyuki-miyamori</code>の形で登録しておこう．</p>
 <p>　GitとGitHubが通信する方法としてsshとhttpsの二つがある．sshとはsecure shellのことである．sshは最初の設定が少し面倒だが，絶対にsshの方が良い(安全だし使う時はラク)ので，最初にやってしまおう．</p>
 <p>　まずはed25519というデジタル署名アルゴリズムを利用し<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> 秘密鍵（id_ed25519）と公開鍵（id_ed25519.pub）を作成する．pubはpublicである．</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh-keygen</span> <span class="at">-t</span> ed25519</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh-keygen</span> <span class="at">-t</span> ed25519</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>genはgenerateである．-tはtypeのことで<code>-t ed25519</code>でひとかたまり．</p>
 <p>　次にGitHubに公開鍵を登録する．GitHubのページの右上の自分のアイコンをクリックし，Settingsから<code>SSH and GPG keys</code>を選択し，<code>New SSH key</code>という緑ボタンをクリックすると，Keyという部分があるのでここに公開鍵を貼り付ければ良い．nanoで開いて(最初のssh-ed25519も含めて)コピペしよう．</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> ~/.ssh/id_ed25519.pub</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>titleはなんでも良い．keytypeはそのまま．</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> ~/.ssh/id_ed25519.pub</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>titleはなんでも良いが，例えばMy MacBook SSH Keyなど相手のローカルを特定する名前が良いだろう．keytypeはそのまま．</p>
 <p>　最後にGitとGitHubを秘密鍵で繋げる．まずnanoで.sshのconfigを開く．</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> ~/.ssh/config</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> ~/.ssh/config</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>そこに</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Host</span> github.com</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="ex">HostName</span> github.com</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="ex">IdentityFile</span> ~/.ssh/id_ed25519</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="ex">User</span> git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Host</span> github.com</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="ex">HostName</span> github.com</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="ex">IdentityFile</span> ~/.ssh/id_ed25519</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="ex">User</span> git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>を書き込んでnanoを閉じる．内容は見ての通りである．</p>
 <p>　次にmacOSのパスワード管理アプリkeychainに秘密鍵を渡すことで，以降自動で処理してもらえる．</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh-add</span> <span class="at">--apple-use-keychain</span> ~/.ssh/id_ed25519</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh-add</span> <span class="at">--apple-use-keychain</span> ~/.ssh/id_ed25519</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>　最後に上手く接続できたか確認しておこう．</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> <span class="at">-T</span> github.com</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> <span class="at">-T</span> github.com</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>を実行して<code>yes</code>と答え，<code>Hi ユーザー名! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code>と表示されれば成功である．-Tはおまじないで良い．</p>
 </section>
 <section id="copilot" class="level1">
@@ -2459,15 +2461,15 @@ Note
 <section id="tex" class="level1">
 <h1>TeX</h1>
 <p>　私は大学1年生の時にmactexをinstallして以来そのままだったし，一括でhomebrewに管理させたかったので，今回uninstallしてからhomebrewで入れ直すことにした(TeXShopはもう必要ないという方は-no-guiをつける)．この辺は皆さんに任せる．</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install <span class="at">--cask</span> mactex-no-gui</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install <span class="at">--cask</span> mactex-no-gui</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>　次にpackageをupdateしておく.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> tlmgr update <span class="at">--self</span> <span class="at">--all</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> tlmgr update <span class="at">--self</span> <span class="at">--all</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>sudoはSuperUser DOであり，これにより一時的に管理者権限を得てなんでもできるようになる(破壊もできるので危険も伴う)．tlmgrはTeX Live Managerである．selfで先にTeX Live Manager自体をupdateしてからallで全てのpackageをupdateしている．</p>
 <p>　また，TeXShopだと¥を打つと自動で<code>\</code>になっていたが，VSCodeでは¥のままなので，まだの人はこの機に常に<code>\</code>に設定してしまおう．(例えば<span class="citation" data-cites="backslash">(<a href="#ref-backslash" role="doc-biblioref">京都産業大学, n.d.</a>)</span>を参照)</p>
 <section id="latexmk" class="level2">
 <h2 class="anchored" data-anchor-id="latexmk">latexmk</h2>
 <p>　latexmkとはコンパイルに関する自動処理システムであり，<code>\ref</code>やbibtexをちゃんと必要な回数ループしてくれる．mkはmakeである．latexmkの設定を書くファイルが.latexmkrcであり，rcはrun commandsである．まずはnanoで.latexmkrcを開こう．(ターミナルの使い方でも述べたが，.latexmkrcが存在しない場合は自動で作成される．)</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> ~/.latexmkrc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> ~/.latexmkrc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>　ここに関しては<span class="citation" data-cites="saiko">(<a href="#ref-saiko" role="doc-biblioref">rainbartown 2021</a>)</span>のコードの内容を調べた結果，ここは基本的に個人の好みが出る部分ではないし(defaultだとlatexmkは日本語非対応なのでplatexに変更するなどしている)，このコードを理解しても他の理解が深まるようにも思えなかったので，何も説明しない．まあいいかという人は<span class="citation" data-cites="saiko">(<a href="#ref-saiko" role="doc-biblioref">rainbartown 2021</a>)</span>のをコピペしてnanoを閉じてほしい(lualatexを使っている方は少し修正する必要がある)．詳細が気になる人はAIに投げて解説してもらってほしい．</p>
 </section>
 <section id="settings.json" class="level2">
@@ -2478,16 +2480,16 @@ Note
 <p>　auto saveに関してはafterDelay(一定時間後に自動保存)というオプションがあり，defaultでは1000ミリ秒後, つまり1秒後にオートセーブされる．他の値にしたいときは<code>&quot;files.autoSaveDelay&quot;: 5000,</code> のように追記する．手動で保存するには<code>command</code> + <code>S</code> (saveのS)である．afterDelay以外のオプションもあるがここでは割愛．auto buildに関してはOnFileChangeの他にonSave(保存時に自動コンパイル)とneverがある．TeXShopと同じにしたいならauto saveはafterDelayでauto buildはneverにすれば良い．</p>
 <p>　また，VSCodeはdefaultでコンパイルのオプションが色々用意されており(サイドバーから<code>TeX</code> をクリックし，「コマンド」を展開して，「LaTeXプロジェクトをビルド」を展開すると，レシピというのがずらっと確認できる．)，何も指定せずに単にコンパイルした場合は一番上のレシピに従ってコンパイルされる．defaultだと一番上はdefaultのlatexmkを使用したコンパイルになっており，せっかくさっき作成した.latexmkrcを参照してくれない．</p>
 <p>　以上を踏まえて，私は次のように書いた．</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    <span class="er">//</span> <span class="er">1秒後にオートセーブする</span></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;files.autoSave&quot;</span><span class="fu">:</span> <span class="st">&quot;afterDelay&quot;</span><span class="fu">,</span></span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    <span class="er">//</span> <span class="er">オートコンパイルをオフにする</span></span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;latex-workshop.latex.autoBuild.run&quot;</span><span class="fu">:</span> <span class="st">&quot;never&quot;</span><span class="fu">,</span></span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>    <span class="er">//</span> <span class="er">コンパイル時にlatexmkrcを使用する</span></span>
-<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;latex-workshop.latex.recipe.default&quot;</span><span class="fu">:</span> <span class="st">&quot;latexmk (latexmkrc)&quot;</span><span class="fu">,</span></span>
-<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    <span class="er">//</span> <span class="er">1秒後にオートセーブする</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;files.autoSave&quot;</span><span class="fu">:</span> <span class="st">&quot;afterDelay&quot;</span><span class="fu">,</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    <span class="er">//</span> <span class="er">オートコンパイルをオフにする</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;latex-workshop.latex.autoBuild.run&quot;</span><span class="fu">:</span> <span class="st">&quot;never&quot;</span><span class="fu">,</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>    <span class="er">//</span> <span class="er">コンパイル時にlatexmkrcを使用する</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;latex-workshop.latex.recipe.default&quot;</span><span class="fu">:</span> <span class="st">&quot;latexmk (latexmkrc)&quot;</span><span class="fu">,</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>　正式には最後はカンマをつけないのだが，つけても問題なく動く．</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">

@@ -134,7 +134,9 @@ brew install quarto
 　次に，Jupyterをinstallする．
 ```zsh
 pip install jupyter
+pip install jupyter-cache
 ```
+二つ目はキャッシュ機能を使う場合に必要なパッケージである．レンダリング(.htmlや.pdfを出力する操作)の度に全てのコードを一から実行するとどんどん時間が長くなるので，変更がないコードは実行結果を使い回すという機能がキャッシュである．
 
 　Pythonは設定不要でいきなり実行可能だが，Juliaを実行したい場合にはJuliaのkernelを追加しないといけない．
 ```zsh
@@ -186,6 +188,7 @@ format:
         \usepackage{tikz}
 execute: 
   warning: false
+  cache: true
 jupyter: julia-1.11
 ---
 ```
@@ -203,6 +206,7 @@ format:
     embed-resources: true
 execute: 
   warning: false
+  cache: true
 jupyter: julia-1.11
 ---
 ```

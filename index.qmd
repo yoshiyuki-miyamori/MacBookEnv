@@ -24,8 +24,8 @@ format:
 
 ## 2025年9月
 
-- [Discordの翻訳Botを作る](5_discord.html)
-
+- [Discordで動くDeepL Botを作る](5_discord.html)
+  * [Discordで動くalphaXiv Botを作る](6_discord_alphaxiv.html)
 # Webサイトの作り方
 
 　GitHubを使って.htmlファイルをウェブサイトとして公開することができる．
