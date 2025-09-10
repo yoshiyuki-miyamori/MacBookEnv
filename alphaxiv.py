@@ -64,15 +64,12 @@ async def on_ready():
             except Exception as e:
                 print(f"エラー: {e}")
             
-            # 次の確認時刻は原則10分後だが，それが終了時刻をオーバーしている場合は翌日の開始時刻に設定
+            # 次の確認は10分後
             next_check_time = now + datetime.timedelta(minutes=10)
-            if next_check_time > end_time:
-                next_day = now + datetime.timedelta(days=1)
-                next_check_time = next_day.replace(hour=CHECK_START_HOUR, minute=0, second=0, microsecond=0)
 
         # 今が休日または活動時間外の時
         else:
-            # 平日かつ開始時刻前なら次回の確認を開始時刻に設定
+            # 平日かつ開始時刻前なら次の確認を開始時刻に設定
             if now.weekday() not in [5, 6] and now < start_time:
                 next_check_time = start_time
             # (平日かつ終了時刻後)あるいは(休日)なら次の確認時刻を翌日の開始時刻に設定
