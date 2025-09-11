@@ -141,17 +141,17 @@ nano ~/Library/LaunchAgents/deepl.plist
     <key>ProgramArguments</key>
     <array>
         <string>/Users/miyamoriyoshiyuki/Discord/.venv/bin/python3</string>
-        <string>/Users/miyamoriyoshiyuki/Discord/deepl.py</string>
+        <string>-u</string>  <string>/Users/miyamoriyoshiyuki/Discord/deepl.py</string>
     </array>
     
     <key>WorkingDirectory</key>
     <string>/Users/miyamoriyoshiyuki/Discord</string>
 
     <key>StandardOutPath</key>
-    <string>/Users/miyamoriyoshiyuki/Discord/.deepl.log</string>
+    <string>/Users/miyamoriyoshiyuki/Discord/.deepl1.log</string>
 
     <key>StandardErrorPath</key>
-    <string>/Users/miyamoriyoshiyuki/Discord/.deepl.log</string>
+    <string>/Users/miyamoriyoshiyuki/Discord/.deepl2.log</string>
 
     <key>RunAtLoad</key>
     <true/>
@@ -213,17 +213,17 @@ sudo nano /Library/LaunchDaemons/deepl.plist
     <key>ProgramArguments</key>
     <array>
         <string>/usr/local/Discord/.venv/bin/python3</string>
-        <string>/usr/local/Discord/deepl.py</string>
+        <string>-u</string>  <string>/usr/local/Discord/deepl.py</string>
     </array>
 
     <key>WorkingDirectory</key>
     <string>/usr/local/Discord</string>
 
     <key>StandardOutPath</key>
-    <string>/usr/local/Discord/.deepl.log</string>
+    <string>/usr/local/Discord/.deepl1.log</string>
 
     <key>StandardErrorPath</key>
-    <string>/usr/local/Discord/.deepl.log</string>
+    <string>/usr/local/Discord/.deepl2.log</string>
 
     <key>RunAtLoad</key>
     <true/>
