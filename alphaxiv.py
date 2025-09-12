@@ -1,8 +1,8 @@
 DISCORD_TOKEN = "自分のDiscordのBotのトークンを貼り付ける"
 CHANNEL_ID = 自分のチャンネルIDを貼り付ける  # 通知を送信したいDiscordチャンネルのID
 ARXIV_CATEGORY = "stat.TH"  # チェックするarXivのカテゴリ = statistics theory
-CHECK_START_HOUR = 8 # チェックを開始する時刻
-CHECK_END_HOUR = 12 # チェックを終了する時刻
+CHECK_START_HOUR = 9 # チェックを開始する時刻
+CHECK_END_HOUR = 15 # チェックを終了する時刻
 
 import discord
 import requests

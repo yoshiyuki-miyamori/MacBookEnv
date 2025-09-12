@@ -8,7 +8,7 @@
 
 <meta name="author" content="宮森祥行">
 
-<title>Discordで動くalphaXiv Botを作る</title>
+<title>一つのmacOSのパソコンを複数人で使う</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,41 @@ ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
 width: 0.8em;
 margin: 0 0.8em 0.2em -1em;  vertical-align: middle;
+}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+}
+pre.numberSource { margin-left: 3em; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -2144,7 +2179,9 @@ vertical-align: -.125em;
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#プログラムの作成" id="toc-プログラムの作成" class="nav-link active" data-scroll-target="#プログラムの作成">プログラムの作成</a></li>
+  <li><a href="#自分のアカウントの作り方" id="toc-自分のアカウントの作り方" class="nav-link active" data-scroll-target="#自分のアカウントの作り方">自分のアカウントの作り方</a></li>
+  <li><a href="#終了時のお願い" id="toc-終了時のお願い" class="nav-link" data-scroll-target="#終了時のお願い">終了時のお願い</a></li>
+  <li><a href="#環境分離のお願い" id="toc-環境分離のお願い" class="nav-link" data-scroll-target="#環境分離のお願い">環境分離のお願い</a></li>
   </ul>
 </nav>
 </div>
@@ -2152,7 +2189,7 @@ vertical-align: -.125em;
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Discordで動くalphaXiv Botを作る</h1>
+<h1 class="title">一つのmacOSのパソコンを複数人で使う</h1>
 </div>
 
 
@@ -2181,14 +2218,29 @@ vertical-align: -.125em;
 </header>
 
 
-<p>　私は先輩にarXivの，例えば私だったらstatistics theoryのページで，毎日新着論文のタイトルをチェックして，興味が湧いたものはちょっと目を通したりというのをコツコツやるといいですよと教えてもらった．しかし3日坊主でやめてしまった．やっぱりトレンドを知ったり自分の世界を広げるのが目的なのだろうからと，全然知らないものにも目を通そうとして面倒になってやめてしまう．<br>
-　そこで安直に思いつくのはAIに2ページほどの日本語に要約させるというものだが，雑な指示だとあまり良いものにならないし，毎日毎論文やるのは結構嫌になる作業である．<br>
-　そこで自動化しようと思うわけだが，いや待てよ，誰か既に作ってるだろと思い調べると案の定見つかった．それがalphaXivである．使い方は簡単で，まずはarXivで読みたい論文のページを開き，そのリンクのarxiv.orgの部分をalphaxiv.orgに書き換える． 移動したら上にあるBlogボタンをクリックする．まだ誰も要約を作成していない場合は，Generate Overviewボタンがあるのでそれをクリックして1-2分待つと，要約が(英語で)作成される．誰かが作っていた場合はいきなりそれが表示される．日本語にしたい場合は中央上部のENボタンをクリックすると，日本語が選べる．(自分が要約を作成した場合はENボタンが出るまでに10秒ほどかかる．また，専門用語の和訳の精度はあまり良くない．) しかし私はどうしようもなく怠惰なのでこれさえ3日坊主で終えてしまった．一つひとつリンクを書き換えるのが想像以上に面倒なのだ．そこでこのルーティーンを代わってくれるBotを作ることにした．やり方はDeepLの翻訳Botとほぼ同じなので<a href="https://yoshiyuki-miyamori.github.io/MacBookEnv/5_discord.html">そちら</a>を参照されたい．</p>
-<section id="プログラムの作成" class="level1">
-<h1>プログラムの作成</h1>
-<p>　先ほど述べた事情から，arXivのstatistics theoryの新着論文があれば自動でそのタイトルとalphaXivの日本語要約のリンクを送ってくれるBotを作ることが目標である． このBotにより，当たり前だが通知が来るようになり，さらにリンクを踏むだけで目的のページへ飛べる．そして意外と大きいのが，スマホで読めるようになるのである．(もちろんBotを使わなくてもスマホでできるが，だるくて私には事実上不可能である．)また，リアクションをつけることでチェックした記録をつけることもできる．こういうのは些細なようで案外馬鹿にできない．流石にここまで心理的ハードルを下げたらジムの合間などで毎日チェックできると信じている．</p>
-<p>　では実装の話をしよう．arXivは課金システムなどないので，APIは公開されており，自分で取得する必要はないのがDeepLとの違いである．Botのトークンは前と同じように取得すること． また，今回はDiscordのalphaXiv専用チャンネルに送りたいため，チャンネルIDを取得する必要がある．Discordの設定を開き詳細設定を選択し，開発者モードをオンにする．その後，メッセージを送りたいチャンネルを右クリックし，チャンネルIDをコピーをクリックすれば良い．<br>
-　今回もvibe codingで作成したファイルを<a href="https://github.com/yoshiyuki-miyamori/MacBookEnv">GitHub</a>にalphaxiv.pyとして置いてある． 先ほどのBotトークンとチャンネルID(必要なら分野や開始時刻/終了時刻も)書き換えてから，前の記事と同じようにターミナルやlaunchdで動かせば良い．導入時には何もメッセージは送られず，次にarXivが更新されたタイミングで初めて動く．discord.pyとrequests以外のパッケージは標準で入っているので<code>pip install</code>をする必要はない．またこの二つはDeepL Botでも用いたものなのでdeepl.pyと同じ場所に置く場合は同じ仮想環境をactivateするだけで良い．</p>
+<p>これは増田先生から頂いた261院生室共用のiMacの使い方を書いたREADME.mdの内容である．PIN: room261というアカウントがあるので名前通りroom261と打ちログインするとREADME.mdがデスクトップにあるという状況である．</p>
+<section id="自分のアカウントの作り方" class="level2">
+<h2 class="anchored" data-anchor-id="自分のアカウントの作り方">自分のアカウントの作り方</h2>
+<p>システム設定を開き「ユーザとグループ」から「ユーザを追加」で自分用のアカウントを作成します． 自分のアカウントのインフォメーション(丸印の中に i )から，「このユーザにこのコンピュータの管理を許可」をオンにします． 指示通り再起動してください．</p>
+</section>
+<section id="終了時のお願い" class="level2">
+<h2 class="anchored" data-anchor-id="終了時のお願い">終了時のお願い</h2>
+<p>このiMacをサーバーとして増田研のDiscordのBotを動かしているので，終了するときは左上のアップルアイコンから，(スリープやシャットダウンではなく)ロック画面を選択してください．30秒ほどでディスプレイの電源が落ちます． (どれか一つでもインターネット接続のあるアカウントがログイン状態(オレンジのチェックマーク)であればBotは起動します．)</p>
+</section>
+<section id="環境分離のお願い" class="level2">
+<h2 class="anchored" data-anchor-id="環境分離のお願い">環境分離のお願い</h2>
+<p>全員がそれぞれ快適な環境を構築するために、以下の手順でHomebrewの初期設定を行なっていただき，以降アプリはHomebrew経由でのインストールをお願いいたします． Homebrewは基本一人用であり標準のインストール先だとまずいので，インストールする場合はホームディレクトリ(以下)にしてください．ホームディレクトリにインストールする場合は以下のコードをターミナルに流してもらえれば大丈夫です．(例えばこのコードの写真を撮ってAIに投げればコピペできると思います．)</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> ~/homebrew</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-L</span> https://github.com/Homebrew/brew/tarball/master <span class="kw">|</span> <span class="fu">tar</span> xz <span class="at">--strip</span> 1 <span class="at">-C</span> ~/homebrew</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&#39;export PATH=&quot;$HOME/homebrew/bin:$PATH&quot;&#39;</span> <span class="op">&gt;&gt;</span> ~/.zshrc</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&#39;export HOMEBREW_CASK_OPTS=&quot;--appdir=~/Applications&quot;&#39;</span> <span class="op">&gt;&gt;</span> ~/.zshrc</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> ~/.zshrc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>1行目でホームディレクトリにhomebrewというディレクトリを作成しています． 2行目でそこへHomebrewをインストールします． 3行目で.zshrcにそのパスを通します． 4行目でGUIアプリのインストール先もホームディレクトリに変更しています． 5行目で.zshrcを読み込んでいます．(再ログインでも大丈夫です．)</p>
+<p>Homebrewのデフォルトのインストール先であればmacOSのキーチェーンはHomebrewを信頼してCA証明書へのアクセスを許可してくれるので，一緒にインストールされるLibreSSLを使ってキーチェーンから直接CA証明書を読み込みます． しかしホームディレクトリにインストールした場合はキーチェーンがCA証明書へのアクセスを許可しないのでSSLに関するエラーが起きます． 今回キーチェーンはもう使えないので，CA証明書を自分で用意してそれを読み込んでもらう必要があります． 次のコードをターミナルに流してください．</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install ca-certificates</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&#39;export SSL_CERT_FILE=$(brew --prefix)/etc/ca-certificates/cert.pem&#39;</span> <span class="op">&gt;&gt;</span> ~/.zshrc</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> ~/.zshrc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>1行目でca-certificatesをインストールすることで，Mozillaが提供するCA証明書を集めたcert.pemというファイルが作成されます． 2行目で.zshrcにcert.pemのパスを教えます． 3行目で.zshrcを読み込みます．(再ログインでも大丈夫です．)</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2199,9 +2251,14 @@ Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>このプログラムはAPIを利用しているのでAPIの更新と同期しており，ウェブサイトの更新とは同期していない．実際ホームページの更新より数時間遅れるがエラーではない．arXivのウェブサイトは平日の10時ごろ(サマータイム中は9時ごろ)に更新されるが，今まで動かした感じだと3時間ほど遅れる．また，最新の論文なのでalphaXiv側の対応が追いつかずリンクがうまくいかないこともあるが，これもエラーではなく少し待てば解決する．</p>
+<p>ちなみにAIにSSLエラーについて尋ねると必ずプロキシサーバーのCA証明書を持ってこいと言われますが，MSWiFiにプロキシは存在しません．</p>
 </div>
 </div>
+<p>基本的に先ほどの設定で問題なく使えるようになったはずですが，このSSLの設定は当然.zshrcを読み込まないと有効にならないので，特殊なケースではSSLエラーが起こり得ます．例えばlaunchdでAPIを使ったPythonのスクリプトを実行しようとするとSSLエラーが起きました．ご不便おかけしますがこういうものは場当たり的に対応していただくしかないと思います．例えば今回の例であれば，certifiパッケージを使って最初に</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> certifi</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>os.environ[<span class="st">&#39;SSL_CERT_FILE&#39;</span>] <span class="op">=</span> certifi.where()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>と書いておけば解決します．</p>
 </section>
 
 </main>

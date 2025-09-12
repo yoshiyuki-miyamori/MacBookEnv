@@ -26,6 +26,7 @@ format:
 
 - [Discordで動くDeepL Botを作る](5_discord.html)
   * [Discordで動くalphaXiv Botを作る](6_discord_alphaxiv.html)
+- [一つのmacOSのパソコンを複数人で使う](7_room261_imac.html)
 
   
 

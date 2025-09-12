@@ -1,0 +1,70 @@
+---
+title: "一つのmacOSのパソコンを複数人で使う"
+author: "宮森祥行"
+date: last-modified
+format:
+  html:
+    code-copy: true
+    date-format: "YYYY年M月D日"
+    toc: true
+    embed-resources: true
+bibliography: references.bib
+---
+
+これは増田先生から頂いた261院生室共用のiMacの使い方を書いたREADME.mdの内容である．PIN: room261というアカウントがあるので名前通りroom261と打ちログインするとREADME.mdがデスクトップにあるという状況である．
+
+## 自分のアカウントの作り方
+
+システム設定を開き「ユーザとグループ」から「ユーザを追加」で自分用のアカウントを作成します．
+自分のアカウントのインフォメーション(丸印の中に i )から，「このユーザにこのコンピュータの管理を許可」をオンにします．
+指示通り再起動してください．
+
+
+## 終了時のお願い
+
+このiMacをサーバーとして増田研のDiscordのBotを動かしているので，終了するときは左上のアップルアイコンから，(スリープやシャットダウンではなく)ロック画面を選択してください．30秒ほどでディスプレイの電源が落ちます．
+(どれか一つでもインターネット接続のあるアカウントがログイン状態(オレンジのチェックマーク)であればBotは起動します．)
+
+
+## 環境分離のお願い
+
+全員がそれぞれ快適な環境を構築するために、以下の手順でHomebrewの初期設定を行なっていただき，以降アプリはHomebrew経由でのインストールをお願いいたします．
+Homebrewは基本一人用であり標準のインストール先だとまずいので，インストールする場合はホームディレクトリ(以下)にしてください．ホームディレクトリにインストールする場合は以下のコードをターミナルに流してもらえれば大丈夫です．(例えばこのコードの写真を撮ってAIに投げればコピペできると思います．)
+```zsh
+mkdir ~/homebrew
+curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C ~/homebrew
+echo 'export PATH="$HOME/homebrew/bin:$PATH"' >> ~/.zshrc
+echo 'export HOMEBREW_CASK_OPTS="--appdir=~/Applications"' >> ~/.zshrc
+source ~/.zshrc
+```
+1行目でホームディレクトリにhomebrewというディレクトリを作成しています．
+2行目でそこへHomebrewをインストールします．
+3行目で.zshrcにそのパスを通します．
+4行目でGUIアプリのインストール先もホームディレクトリに変更しています．
+5行目で.zshrcを読み込んでいます．(再ログインでも大丈夫です．)
+
+
+Homebrewのデフォルトのインストール先であればmacOSのキーチェーンはHomebrewを信頼してCA証明書へのアクセスを許可してくれるので，一緒にインストールされるLibreSSLを使ってキーチェーンから直接CA証明書を読み込みます．
+しかしホームディレクトリにインストールした場合はキーチェーンがCA証明書へのアクセスを許可しないのでSSLに関するエラーが起きます．
+今回キーチェーンはもう使えないので，CA証明書を自分で用意してそれを読み込んでもらう必要があります．
+次のコードをターミナルに流してください．
+```zsh
+brew install ca-certificates
+echo 'export SSL_CERT_FILE=$(brew --prefix)/etc/ca-certificates/cert.pem' >> ~/.zshrc
+source ~/.zshrc
+```
+1行目でca-certificatesをインストールすることで，Mozillaが提供するCA証明書を集めたcert.pemというファイルが作成されます．
+2行目で.zshrcにcert.pemのパスを教えます．
+3行目で.zshrcを読み込みます．(再ログインでも大丈夫です．)
+
+::: callout-warning
+ちなみにAIにSSLエラーについて尋ねると必ずプロキシサーバーのCA証明書を持ってこいと言われますが，MSWiFiにプロキシは存在しません．
+:::
+
+基本的に先ほどの設定で問題なく使えるようになったはずですが，このSSLの設定は当然.zshrcを読み込まないと有効にならないので，特殊なケースではSSLエラーが起こり得ます．例えばlaunchdでAPIを使ったPythonのスクリプトを実行しようとするとSSLエラーが起きました．ご不便おかけしますがこういうものは場当たり的に対応していただくしかないと思います．例えば今回の例であれば，certifiパッケージを使って最初に
+```python
+import certifi
+import os
+os.environ['SSL_CERT_FILE'] = certifi.where()
+```
+と書いておけば解決します．
