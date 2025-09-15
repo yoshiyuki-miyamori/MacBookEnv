@@ -40,9 +40,9 @@ async def on_ready():
                     new_papers = []
                     current_papers = set()
 
-                # arXiv APIから論文IDを取得
+                # arXiv APIから論文ID(version番号なし)を取得
                 for entry in ET.fromstring(requests.get(ARXIV_API_URL).content).findall("{http://www.w3.org/2005/Atom}entry"):
-                    paper_id = entry.find("{http://www.w3.org/2005/Atom}id").text.split("/abs/")[-1]
+                    paper_id = entry.find("{http://www.w3.org/2005/Atom}id").text.split("/abs/")[-1].split('v')[0]
                     current_papers.add(paper_id) # current_papersに記録
 
                     # チェック済みか確認
@@ -58,12 +58,13 @@ async def on_ready():
                 # new_papersのタイトルとURLを送信
                 for entry in new_papers:
                     title = entry.find("{http://www.w3.org/2005/Atom}title").text.strip()
-                    overview_url = f"https://www.alphaxiv.org/ja/overview/{entry.find('{http://www.w3.org/2005/Atom}id').text.split('/abs/')[-1]}"
+                    paper_id = entry.find("{http://www.w3.org/2005/Atom}id").text.split("/abs/")[-1].split('v')[0]
+                    overview_url = f"https://www.alphaxiv.org/ja/overview/{paper_id}"
                     await bot.get_channel(CHANNEL_ID).send(embed=discord.Embed(title=title, description=f"<{overview_url}>") )
 
             except Exception as e:
                 print(f"エラー: {e}")
-            
+
         # 10分後に再確認．無駄に思えるが，長時間スリープさせるとDiscordとの接続が不安定になる．
         await asyncio.sleep(600)
 
