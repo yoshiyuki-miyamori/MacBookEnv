@@ -19,7 +19,7 @@ JST = datetime.timezone(datetime.timedelta(hours=9)) # 日本時間
 if not os.path.exists("seen_papers.txt"):
     with open("seen_papers.txt", "w") as seen_papers:
         for entry in ET.fromstring(requests.get(ARXIV_API_URL).content).findall("{http://www.w3.org/2005/Atom}entry"):
-            paper_id = entry.find("{http://www.w3.org/2005/Atom}id").text.split("/abs/")[-1]
+            paper_id = entry.find("{http://www.w3.org/2005/Atom}id").text.split("/abs/")[-1].split('v')[0]
             seen_papers.write(f"{paper_id}\n")
 
 # Botの動作
