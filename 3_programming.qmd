@@ -186,7 +186,7 @@ format:
       text: |
         \usepackage{amsthm, mathtools, amssymb}
         \usepackage{tikz}
-execute: 
+execute:
   warning: false
   cache: true
 jupyter: julia-1.11
@@ -204,7 +204,7 @@ format:
     date-format: "YYYY年M月D日"
     toc: true  # table of contents
     embed-resources: true
-execute: 
+execute:
   warning: false
   cache: true
 jupyter: julia-1.11
@@ -212,5 +212,26 @@ jupyter: julia-1.11
 ```
 など．platexではなくlualatexを使う必要があることに注意．
 
+# 便利な拡張機能
 
-　他にもPrettierというコードフォーマッターなど，色々便利な拡張機能があるが，私のモチベ不足から導入できていない．導入した方はぜひ教えてください．
+まずこの3つは必須だと思う．
+
+- indent-rainbow: インデントが見やすくなる．また，変なサイズのインデントを赤色で教えてくれる．
+- Trailing Spaces: 行末の不要なスペースを赤色で教えてくれる．
+- Error Lens: エラーや警告をコードに直接表示してくれる．
+
+次に，自動でフォーマットを整えてくれる拡張機能もある．必要に応じて入れてほしい．
+
+- Prettier: HTMLやMarkdown, JavaScriptなどのWeb系のコードを自動で整形してくれる．(プログラミング言語は対象外)
+- Ruff: Pythonのコードを整形してくれる．
+
+
+# GitHubによるWebサイトの作り方
+
+　GitHubを使って.htmlファイルをウェブサイトとして公開することができる．
+
+　まず必ずindex.htmlというファイルを作る必要があるが，Quartoを使う場合は，index.qmdというファイルを`format: html`で作れば良い．名前は必ず`index`でなければならない．一つならこれだけで良いが，複数ある場合は，index.htmlをトップページとしてそこに他のリンクを貼る形になる．
+
+　(index.html含む)公開したい.htmlファイルらをpublic repositoryにpushした後，
+GitHubのサイトでそのリポジトリを開き，そのリポジトリ内のSettingsをクリックし，左のメニューからPagesを選ぶ．
+Branchの部分がNoneになっていると思うので，それをmainに変えてからSaveをクリックし，少ししてからブラウザの更新ボタンを押すと，`https://ユーザ名.github.io/リポジトリ名/`というURLが表示され，公開完了である．

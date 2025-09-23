@@ -2342,6 +2342,8 @@ window.Quarto = {
   <li><a href="#python" id="toc-python" class="nav-link" data-scroll-target="#python">Python</a></li>
   <li><a href="#r" id="toc-r" class="nav-link" data-scroll-target="#r">R</a></li>
   <li><a href="#quarto" id="toc-quarto" class="nav-link" data-scroll-target="#quarto">Quarto</a></li>
+  <li><a href="#便利な拡張機能" id="toc-便利な拡張機能" class="nav-link" data-scroll-target="#便利な拡張機能">便利な拡張機能</a></li>
+  <li><a href="#githubによるwebサイトの作り方" id="toc-githubによるwebサイトの作り方" class="nav-link" data-scroll-target="#githubによるwebサイトの作り方">GitHubによるWebサイトの作り方</a></li>
   </ul>
 </nav>
 </div>
@@ -2366,7 +2368,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2025年9月9日</p>
+      <p class="date">2025年9月24日</p>
     </div>
   </div>
   
@@ -2485,7 +2487,7 @@ Note
 <span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="fu">      text</span><span class="kw">: </span><span class="ch">|</span></span>
 <span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>        \usepackage{amsthm, mathtools, amssymb}</span>
 <span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>        \usepackage{tikz}</span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="fu">execute</span><span class="kw">:</span><span class="at"> </span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="fu">execute</span><span class="kw">:</span></span>
 <span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
 <span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">cache</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
 <span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="fu">jupyter</span><span class="kw">:</span><span class="at"> julia-1.11</span></span>
@@ -2501,13 +2503,32 @@ Note
 <span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">date-format</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;YYYY年M月D日&quot;</span></span>
 <span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">toc</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span><span class="co">  # table of contents</span></span>
 <span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">embed-resources</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="fu">execute</span><span class="kw">:</span><span class="at"> </span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="fu">execute</span><span class="kw">:</span></span>
 <span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
 <span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">cache</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
 <span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="fu">jupyter</span><span class="kw">:</span><span class="at"> julia-1.11</span></span>
 <span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>など．platexではなくlualatexを使う必要があることに注意．</p>
-<p>　他にもPrettierというコードフォーマッターなど，色々便利な拡張機能があるが，私のモチベ不足から導入できていない．導入した方はぜひ教えてください．</p>
+</section>
+<section id="便利な拡張機能" class="level1">
+<h1>便利な拡張機能</h1>
+<p>まずこの3つは必須だと思う．</p>
+<ul>
+<li>indent-rainbow: インデントが見やすくなる．また，変なサイズのインデントを赤色で教えてくれる．</li>
+<li>Trailing Spaces: 行末の不要なスペースを赤色で教えてくれる．</li>
+<li>Error Lens: エラーや警告をコードに直接表示してくれる．</li>
+</ul>
+<p>次に，自動でフォーマットを整えてくれる拡張機能もある．必要に応じて入れてほしい．</p>
+<ul>
+<li>Prettier: HTMLやMarkdown, JavaScriptなどのWeb系のコードを自動で整形してくれる．(プログラミング言語は対象外)</li>
+<li>Ruff: Pythonのコードを整形してくれる．</li>
+</ul>
+</section>
+<section id="githubによるwebサイトの作り方" class="level1">
+<h1>GitHubによるWebサイトの作り方</h1>
+<p>　GitHubを使って.htmlファイルをウェブサイトとして公開することができる．</p>
+<p>　まず必ずindex.htmlというファイルを作る必要があるが，Quartoを使う場合は，index.qmdというファイルを<code>format: html</code>で作れば良い．名前は必ず<code>index</code>でなければならない．一つならこれだけで良いが，複数ある場合は，index.htmlをトップページとしてそこに他のリンクを貼る形になる．</p>
+<p>　(index.html含む)公開したい.htmlファイルらをpublic repositoryにpushした後， GitHubのサイトでそのリポジトリを開き，そのリポジトリ内のSettingsをクリックし，左のメニューからPagesを選ぶ． Branchの部分がNoneになっていると思うので，それをmainに変えてからSaveをクリックし，少ししてからブラウザの更新ボタンを押すと，<code>https://ユーザ名.github.io/リポジトリ名/</code>というURLが表示され，公開完了である．</p>
 
 </section>
 
