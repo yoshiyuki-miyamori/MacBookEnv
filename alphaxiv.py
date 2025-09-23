@@ -52,9 +52,8 @@ async def on_ready():
                 for title, paper_id in current_papers:
                     if paper_id not in seen_paper_ids:
                         new_papers.append((title, paper_id))
-
-                if new_papers:
-                    os.remove("seen_papers.txt")
+                        with open("seen_papers.txt", "a") as seen_papers:
+                            seen_papers.write(f"{paper_id}\n")
 
                 for title, paper_id in new_papers:
                     alphaXiv_URL = f"https://www.alphaxiv.org/ja/overview/{paper_id}"
