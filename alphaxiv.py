@@ -37,6 +37,7 @@ def Seen_Papers():
 @bot.event
 async def on_ready():
     print("arXivの更新を待っています...")
+    await bot.change_presence(status=discord.Status.invisible) # オフライン表示にする
     while not bot.is_closed():
         now = datetime.datetime.now(Japan_Standard_Time)
         start_time = now.replace(hour=CHECK_START_HOUR, minute=0, second=0, microsecond=0)

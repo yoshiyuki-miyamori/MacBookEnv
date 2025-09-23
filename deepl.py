@@ -31,7 +31,8 @@ client = discord.Client(intents=intents)
 @client.event
 async def on_ready():
     print("リアクション待機中...")
-        
+    await client.change_presence(status=discord.Status.invisible) # オフライン表示にする
+
 # 翻訳関連動作
 @client.event
 async def on_raw_reaction_add(payload):
@@ -49,7 +50,7 @@ async def on_raw_reaction_add(payload):
     try:
         # リアクションした本人を取得
         user = await client.fetch_user(payload.user_id)
-        
+
         # リアクションされたメッセージを取得
         channel = client.get_channel(payload.channel_id)
         message = await channel.fetch_message(payload.message_id)
@@ -68,13 +69,13 @@ async def on_raw_reaction_add(payload):
         if response.status_code == 200:
             response_json = response.json()
             translated_text = response_json["translations"][0]["text"]
-            
+
             # 元のメッセージの引用を作成
             original_message_quote = f"> 「{message.content[:50]}...」\n" if len(message.content) > 50 else f"> 「{message.content}」\n"
-            
+
             # 本人にDMで翻訳結果を送信
             await user.send(f"{original_message_quote}{translated_text}")
-        
+
         # リクエスト失敗時
         else:
             error_message = f"翻訳エラー(DeepL): {response.status_code}{response.text}"
