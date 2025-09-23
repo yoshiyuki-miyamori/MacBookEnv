@@ -1,0 +1,459 @@
+---
+title: "ゼロから作るDeep Learning by Julia (2-4章)"
+author: "宮森祥行"
+date: last-modified
+format:
+  html:
+    code-copy: true
+    date-format: "YYYY年M月D日"
+    toc: true  # table of contents
+    embed-resources: true
+execute:
+  warning: false
+  cache: true
+jupyter: julia-1.11
+bibliography: references.bib
+---
+
+追記：あまりにも初心者だったのでプログラムを自分で書くのは偉いと思っていたが，実際には借りる方がよく[@UNIX]，実際プログラマはコードを書くよりもググっている時間の方が長い[@yurugengo]と知ったり，オブジェクト指向プログラミングをかじってQuartoで一枚にダラダラ書くのは良くないと思うようになったりして，このファイルはまさしく独自技術症候群じゃないかと思い直し，意味を見出せなくなったため5章以降はやめた．コードもかなり汚い．
+
+　
+
+
+
+
+　私はDeep LearningやAIに少し興味があり，プログラミングもできるようにしないとなというところだったのだが，[@Saito2016]がちょうど良かったので読むことにした．私はPythonもJuliaも全然わかっていないのだが，何をするにもNumPyを使わないといけないのはあまりにだるいのと，提供されているコードを読んで実行するだけだと目が滑るので，Juliaで実装し直すことにした．これはDeep Learningを解説する意図はなく，私の単なる備忘録としての記述しかないことに注意．基本的には他人が読む価値はない．
+
+　ここでも便利なパッケージは使用せず，使うのはRandom, MLDatasets, Images, Plots, JLD2だけである．MLDatasetsのMLはMachine Learningの略で，手書き数字のデータを学習とテストに利用した．そのほかはDeep Learningに対しては全く本質的ではなく，初期値をランダムに決めたり，テストデータの画像を表示したり，正答率のグラフを書いたり，キャッシュファイルを作ったりするのに使っただけである．
+
+とりあえずシードを固定
+```{julia}
+#| output: false
+using Random
+Random.seed!(123)
+```
+
+# 2章 パーセプトロン
+
+パーセプロトロンの実装
+```{julia}
+#| output: false
+function perceptron(x, w, b)
+    if sum(w .* x) + b <= 0
+        return 0
+    else
+        return 1
+    end
+end
+```
+パーセプトロンはAND、NAND、ORゲートを実装できる
+```{julia}
+#| output: false
+function AND(x)
+    return perceptron(x, [0.5, 0.5], -0.7)
+end
+
+function NAND(x)
+    return perceptron(x, [-0.5, -0.5], 0.7)
+end
+
+function OR(x)
+    return perceptron(x, [0.5, 0.5], -0.2)
+end
+```
+XORゲートはパーセプトロンでは実装できないが、多層パーセプトロンなら実装できる．
+```{julia}
+#| output: false
+function XOR(x)
+    return AND((NAND(x), OR(x)))
+end
+```
+正しく動くかテスト．
+```{julia}
+for f in [AND, NAND, OR, XOR]
+    for x in [(0, 0), (1, 0), (0, 1), (1, 1)]
+        y = f(x)
+        println("$(f): $(x) -> $(y)")
+    end
+end
+```
+
+# 3章 ニューラルネットワーク
+
+## 3.4節 3層ニューラルネットワークの実装
+まずは各値をテキトーに設定してみる
+```{julia}
+#| output: false
+x = [1.0;
+     0.5]  # 入力
+W₁ = [0.1 0.2;
+      0.3 0.4;
+      0.5 0.6] # 第1層の重み
+b₁ = [0.1;
+      0.2;
+      0.3] # 第1層のバイアス
+W₂ = [0.1 0.2 0.3;
+      0.4 0.5 0.6] # 第2層の重み
+b₂ = [0.1;
+      0.2] # 第2層のバイアス
+W₃ = [0.1 0.2;
+      0.3 0.4] # 第3層の重み
+b₃ = [0.1;
+      0.2] # 第3層のバイアス
+```
+活性化関数に使うシグモイド関数を定義
+```{julia}
+#| output: false
+function sigmoid(x)
+    return 1.0 / (1.0 + exp(-x))
+end
+```
+順伝播の実装
+```{julia}
+a₁ = W₁ * x + b₁
+z₁ = sigmoid.(a₁)
+a₂ = W₂ * z₁ + b₂
+z₂ = sigmoid.(a₂)
+a₃ = W₃ * z₂ + b₃
+y = a₃
+```
+
+## 3.5節 出力層の設計
+分類問題で使われるソフトマックス関数を定義．この後実際に手書き数字の分類を行う．
+````{julia}
+#| output: false
+function softmax(a)
+    c = maximum(a)  # オーバーフロー対策
+    exp_a = exp.(a .- c)
+    sum_exp_a = sum(exp_a)
+    return exp_a ./ sum_exp_a
+end
+````
+計算例
+```{julia}
+a = [0.3;
+     2.9;
+     4.0]
+y = softmax(a)
+```
+
+## 3.6節　手書き数字認識
+
+手書き数字のデータセットMNISTを読み込む．
+`MNIST(split=:train)`に学習データ、`MNIST(split=:test)`にテストデータが，画像データとラベルデータのペアで入っている．(`[:]'はペアを分離するためのおまじない．)
+画像データはGray{N0f8}型のデータなので積演算などができないため，Float32型に変換する．normalizeに関してだが，実はMLDatasets.jlが読み込むデータは既にnormalizeされているためここでは書いていない．
+(何も指定しなければflatten=true, one_hot_label=falseとなる．)
+```{julia}
+#| output: false
+using MLDatasets # MNISTデータセットを読み込むためのパッケージ
+ENV["DATADEPS_ALWAYS_ACCEPT"] = "true" # 必要なデータセットは勝手にインストール
+
+function load_mnist(; flatten::Bool=true, one_hot_label::Bool=false)
+    # MNISTデータセットの読み込み
+    train_img, train_label = MNIST(split=:train)[:]
+    test_img, test_label = MNIST(split=:test)[:]
+
+    # 画像データをFloat32型に変換
+    train_img = Float32.(train_img)
+    test_img = Float32.(test_img)
+
+    # flatten=trueなら28x28の画像を1次元配列に変換
+    if flatten
+        train_img = reshape(train_img, 28*28, :)
+        test_img = reshape(test_img, 28*28, :)
+    end
+
+    # one_hot_labelに変える関数を定義
+    function label2one_hot(x)
+        T = zeros(Int, 10, length(x))
+        # 1にすべき場所を全てリストアップ
+        # CartesianIndex(i, j)は2次元配列のi行j列を指す．その座標をベクトルとしてリストアップ
+        # enumerate(x)はxの各要素に対し，(index, value)のペアを返す．ここでのvalueは0~9のlabelなので，Juliaに合わせて+1．
+        idx = [CartesianIndex(label + 1, i) for (i, label) in enumerate(x)]
+        # リストアップした場所に1を代入
+        T[idx] .= 1
+        return T
+    end
+
+    # one_hot_label=trueならラベルをone-hotエンコーディングに変換
+    if one_hot_label
+        train_label = label2one_hot(train_label)
+        test_label = label2one_hot(test_label)
+    end
+
+    return (train_img, train_label), (test_img, test_label)
+end
+```
+
+::: callout-note
+MNISTデータセットの中身を確認してみよう．
+```{julia}
+# MNISTデータセットを読み込む
+(train_img, train_label), (test_img, test_label) = load_mnist()
+println(size(train_img))  # (784, 60000) 784画素の学習データが6万枚
+println(size(train_label)) # (60000,) 各画像の正解の数字が書いてあるラベルが6万個
+println(size(test_img))   # (784, 10000) テストデータは1万枚
+println(size(test_label))  # (10000,)
+
+img = train_img[:, 1] # 学習データの1枚目の画像
+label = train_label[1] # その画像の正解の数字
+
+# 画像のサイズを見ると1次元配列になっているので28x28に戻す
+println(size(img)) # (784,)
+img = reshape(img, 28, 28)'
+println(size(img)) # (28, 28)
+
+# 1枚目のラベルを確認すると，これは5の画像らしい
+println(label)
+
+# 実際に画像を表示してみると，確かに5のようである
+using Images
+Gray.(img)
+```
+:::
+順伝播の関数を準備する．
+```{julia}
+#| output: false
+# Neural-Networkの定義
+function predict(network, x)
+    W₁, W₂, W₃ = network["W1"], network["W2"], network["W3"]
+    b₁, b₂, b₃ = network["b1"], network["b2"], network["b3"]
+
+    a₁ = W₁ * x .+ b₁
+    z₁ = sigmoid.(a₁)
+    a₂ = W₂ * z₁ .+ b₂
+    z₂ = sigmoid.(a₂)
+    a₃ = W₃ * z₂ .+ b₃
+    y = softmax(a₃)
+
+    return y
+end
+```
+まずは1枚ずつ予測して正答率を計算する関数を準備する．
+```{julia}
+#| output: false
+function accuracy(network, x, t)
+    accuracy_cnt = 0.0
+    # xは784×10000の2次元配列．size(x,1)は1枚の画素数，size(x,2)は画像の数．
+    for i in 1:size(x, 2)
+    # y = predict(network, x[:,i])はi番目の画像x[:,i]に対する予測結果
+    y = predict(network, x[:, i])
+    # pは予測ラベル．argmax(y)はほぼ予測ラベルだが，Juliaのargmaxは1始まりなので-1すると手書き数字と合わせられる
+    p = argmax(y) - 1
+        # t[i]はi番目の画像の正解ラベル
+        if p == t[i]
+        accuracy_cnt += 1
+        end
+    end
+    return accuracy_cnt / size(x, 2)
+end
+```
+バッチ処理をすると速くなる．
+```{julia}
+#| output: false
+function batch_accuracy(network, x, t)
+    accuracy_cnt = 0
+    batch_size = 100
+    # 1からbatch_sizeずつ増やしながらsize(x,2)まで繰り返す
+    for i in 1:batch_size:size(x, 2)
+        # x_batchはxのi枚目からi+batch_size-1枚目までをまとめて取り出したもの
+        x_batch = x[:, i:min(i+batch_size-1, size(x, 2))]
+        # y_batchはx_batchに対してまとめて予測した結果
+        y_batch = predict(network, x_batch)
+        # pはy_batchを手書き数字に合わせた予測ラベル
+        p = vec([argmax(y_batch[:, j]) for j in 1:size(y_batch, 2)]) .- 1
+        # t_batchはtのi番目からi+batch_size-1番目までの正解ラベル取り出したもの
+        t_batch = t[i:min(i+batch_size-1, size(x, 2))]
+        # pとt_batchを比較して正解数を数える
+        accuracy_cnt += sum(p .== t_batch)
+    end
+    return accuracy_cnt / size(x, 2)
+end
+```
+ではいよいよテストデータで正答率を計算してみよう．まずはテストデータ10000枚の，画像をxに，ラベルをtに格納する．また，sample_weight.pklの代わりにここではランダムに用意する．
+```{julia}
+#| output: false
+(train_img, train_label), (test_img, test_label) = load_mnist()
+x, t = test_img, test_label
+
+network = Dict(
+    "W1" => rand(Float32, 50, 784),
+    "b1" => rand(Float32, 50),
+    "W2" => rand(Float32, 100, 50),
+    "b2" => rand(Float32, 100),
+    "W3" => rand(Float32, 10, 100),
+    "b3" => rand(Float32, 10)
+)
+```
+elapsed timeは経過時間という意味であり，処理にかかった時間を返す．
+accuracy関数を定義せず中身をいきなり@elapsed で囲んだり，一行目の`accuracy(network, x, t)`を書かなかったりすると，関数の呼び出し等の関係で本来の大小関係が逆転してしまうため回りくどいがこのように書くことで純粋な計算時間を測定できている．ランダムなので当然正答率は全く良くなく，大体0.1くらいになるはず．
+```{julia}
+accuracy(network, x, t)
+elapsed_time = @elapsed acc_val = accuracy(network, x, t)
+println("正答率: $(round(acc_val, digits=4)), 所要時間: $(round(elapsed_time, digits=3))秒")
+
+batch_accuracy(network, x, t)
+batch_elapsed_time = @elapsed batch_acc_val = batch_accuracy(network, x, t)
+println("正答率: $(round(batch_acc_val, digits=4)), 所要時間: $(round(batch_elapsed_time, digits=3))秒")
+```
+
+
+# 4章 ニューラルネットワークの学習
+
+## 4.5節 学習アルゴリズムの実装
+
+まずは関数を用意する．`predict`や`loss`などの引数にいちいち$W_1, b_1, W_2, b_2$を渡すのは面倒なので，`TwoLayerNet`という型を定義することでことでラクすることにする．(ただし，`TwoLayerNet`の型の定義も関数`TwoLayerNet()`として定義している．)Pythonで型を作るのは`class`を使うが，Juliaでは`struct`を使う．`mutable`をつけると書き換え可能．
+```{julia}
+#| output: false
+mutable struct TwoLayerNet
+    params::Dict{String, Array}
+end
+
+# input_size: 画素数，hidden_size: 中間層のニューロン数，output_size: 数字の数(0~9)
+function TwoLayerNet(; input_size::Int, hidden_size::Int, output_size::Int, weight_init_std::Float64=0.01)
+    params = Dict{String, Array}()
+    # paramsというDictに，String="W₁"に右辺のarrayを対応させて格納する．
+    params["W₁"] = weight_init_std .* randn(hidden_size, input_size)
+    params["b₁"] = zeros(hidden_size, 1)
+    params["W₂"] = weight_init_std .* randn(output_size, hidden_size)
+    params["b₂"] = zeros(output_size, 1)
+    return TwoLayerNet(params)
+end
+```
+では本題の関数たちを定義する．
+```{julia}
+#| output: false
+function predict(network::TwoLayerNet, x)
+    W₁, W₂ = network.params["W₁"], network.params["W₂"]
+    b₁, b₂ = network.params["b₁"], network.params["b₂"]
+
+    a₁ = W₁ * x .+ b₁
+    z₁ = sigmoid.(a₁)
+    a₂ = W₂ * z₁ .+ b₂
+    y = softmax(a₂)
+    return y
+end
+
+function loss(network::TwoLayerNet, x, t)
+    y = predict(network, x)
+    # cross-entropy error
+    return -sum(t .* log.(y .+ 1e-7)) / size(x, 2)
+end
+
+function accuracy(network::TwoLayerNet, x, t)
+    y_batch = predict(network, x)
+    p = map(j -> argmax(y_batch[:, j]) - 1, 1:size(y_batch, 2))
+    # tはone-hotを想定しているので，labelに戻す．
+    t = map(j -> argmax(t[:, j]) - 1, 1:size(t, 2))
+    return sum(p .== t) / size(x, 2)
+end
+
+function numerical_gradient(network::TwoLayerNet, x, t)
+    loss_func = v -> loss(network, x, t)
+
+    grads = Dict{String, Array}()
+    for key in ["W₁", "b₁", "W₂", "b₂"]
+        h = 1e-4 # 0.0001．これくらいが数値微分にはちょうどいいらしい．
+        v = network.params[key]
+        grads[key] = zero(v) # 型を設定
+        # eachindexは全要素についてループしてくれるので，v=W(2次元配列)でもv=b(1次元配列)でもまとめて書ける．iは自然数値で増えていくが，2次元の時もv[i]はよしなに処理してくれる便利関数．
+        for i in eachindex(v)
+            # 関数lossに対し引数keyのi番目の要素に関する偏微分loss[key][i]を数値微分f'(v)=f(v+h)-f(v-h)/2hで求める
+            init = v[i]
+
+            v[i] = init + h
+            loss_v_plus_h = loss_func(v)
+
+            v[i] = init - h
+            loss_v_minus_h = loss_func(v)
+
+            grads[key][i] = (loss_v_plus_h - loss_v_minus_h) / 2h
+            v[i] = init # 値を元に戻す
+        end
+    end
+    return grads
+end
+```
+では実際に学習してみる．まずは初期設定をする．中間層はよくわからないが50ニューロンにしている．学習率は0.1くらいでうまくいくらしい．
+```{julia}
+#| output: false
+# ニューラルネットを乱数で初期化
+network = TwoLayerNet(input_size=784, hidden_size=50, output_size=10)
+(train_img, train_label), (test_img, test_label) = load_mnist(one_hot_label=true)
+learning_rate = 0.1
+
+train_size = size(train_img, 2) # 総学習データ数 = 60000枚
+batch_size = 100 # ミニバッチの枚数 = 100枚
+
+train_loss_list = [] # 各ミニバッチでの損失関数の値を格納するリスト
+train_acc_list = [] # 各エポックでの学習データの正答率を格納するリスト
+test_acc_list = [] # 各エポックでのテストデータの正答率を格納するリスト
+```
+ではいよいよ学習を始める．ミニバッチは本当は1万回くらい繰り返したいが，数値微分は非常に遅く，いつまで経っても計算が終わらない．M1チップのMacBook Proで実行したところ10回でさえ4分ほどかかる．レンダリングのたびにこんなに時間がかかっては敵わないのでキャッシュ処理したいところだが，Juliaは生真面目でなかなかそう処理してくれないので，ここでは手動でキャッシュ処理をして解決した．つまり一度計算したらそれをcacheファイルに保存し，以降は計算せずにその結果だけを読み込む．しかし10回では全然学習できず(気になる人は実際にやってみよ)，アルゴリズムが正しいのか判断できないため，一度1200回，つまり2エポック分計算してみた．以下にその結果を表示する．結果ファイルは[GitHub](https://github.com/yoshiyuki-miyamori/MacBookEnv)においてある．
+```{julia}
+#| output: false
+using JLD2
+cache = "cache_1200.jld2"
+
+if isfile(cache)
+    @load cache network train_loss_list train_acc_list test_acc_list elapsed_time
+else
+    elapsed_time = @elapsed begin
+        for i in 1:1200 # ミニバッチを繰り返す回数を指定．
+
+            # 6万枚の中から100枚をランダムに選び，それらの画像とラベルをx_batch, t_batchに格納し，ミニバッチを取得
+            batch_mask = rand(1:train_size, batch_size)
+            x_batch = train_img[:, batch_mask]
+            t_batch = train_label[:, batch_mask]
+
+            # 各ミニバッチごとに損失関数の値を記録
+            loss_val = loss(network, x_batch, t_batch)
+            push!(train_loss_list, loss_val)
+
+            # 各ミニバッチごとに学習データの正答率を記録
+            train_acc = accuracy(network, train_img, train_label)
+            push!(train_acc_list, train_acc)
+
+            # 各ミニバッチごとにテストデータの正答率を記録
+            test_acc = accuracy(network, test_img, test_label)
+            push!(test_acc_list, test_acc)
+
+            # x_batchに関する損失関数の勾配を求めてニューラルネットのパラメータを更新
+            grad = numerical_gradient(network, x_batch, t_batch)
+            for key in ["W₁", "b₁", "W₂", "b₂"]
+                network.params[key] .-= learning_rate .* grad[key]
+            end
+        end
+    end
+    @save cache network train_loss_list train_acc_list test_acc_list elapsed_time
+end
+```
+実行時間とグラフを表示する．
+```{julia}
+println("所要時間: $(round(Int, elapsed_time))秒")
+```
+これはちょうど10時間である．
+```{julia}
+using Plots
+# 学習データの損失関数の値をプロット
+plot(1:1200, train_loss_list,
+     label = "train loss",
+     xlabel = "batches",
+     ylabel = "loss",
+     ylims = (0, 7),
+     legend = :topright)
+```
+```{julia}
+# 学習データの正答率をプロット
+plot(1:1200, train_acc_list,
+     label = "train accuracy",
+     xlabel = "batches",
+     ylabel = "accuracy",
+     ylims = (0, 1),
+     legend = :bottomright)
+# テストデータの正答率をプロット
+plot!(1:1200, test_acc_list,
+      label = "test accuracy",
+      linestyle = :dash) # 点線でプロット
+```
+流石に2エポックも学習すればかなり良いモデルになっている．
