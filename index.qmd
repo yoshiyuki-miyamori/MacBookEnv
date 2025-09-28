@@ -27,19 +27,5 @@ format:
 - [Discordで動くDeepL Botを作る](5_discord.html)
   * [Discordで動くalphaXiv Botを作る](6_discord_alphaxiv.html)
 - [一つのmacOSのパソコンを複数人で使う](7_room261_imac.html)
-
-  
-
-# Webサイトの作り方
-
-　GitHubを使って.htmlファイルをウェブサイトとして公開することができる．
-
-　まず必ずindex.htmlというファイルを作る必要があるが，Quartoを使う場合は，index.qmdというファイルを`format: html`で作れば良い．名前は必ず`index`でなければならない．一つならこれだけで良いが，複数ある場合は，index.htmlをトップページとしてそこに他のリンクを貼る形になる．
-
-　(index.html含む)公開したい.htmlファイルらをpublic repositoryにpushした後，
-GitHubのサイトでそのリポジトリを開き，そのリポジトリ内のSettingsをクリックし，左のメニューからPagesを選ぶ．
-Branchの部分がNoneになっていると思うので，それをmainに変えてからSaveをクリックし，少ししてからブラウザの更新ボタンを押すと，`https://ユーザ名.github.io/リポジトリ名/`というURLが表示され，公開完了である．
-
-
-
-
+- [ゼロから作るDeep Learning by Julia (2-4章)](8_deep_learning_julia.html)
+- [業務効率化入門](9_shortcut.html)
