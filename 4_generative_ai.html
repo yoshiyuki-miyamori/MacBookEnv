@@ -2262,7 +2262,7 @@ Warning
 <p>npmはNode Package Manager，-gは–globalである． 完了したら`gemini’と入力すると立ち上がる． ログインしないといけないので，特別こだわりがなければGoogleアカウントでログインしよう．</p>
 <p>　おそらくちょっとしたエラーが出ていると思うので，気持ち悪かったら， 「システム設定」から「プライバシーとセキュリティ」から「フルディスクアクセス」でターミナルをオンにしておこう．</p>
 <p>　また，<code>You are running Gemini CLI in your home directory. It is recommended to run in a project-specific directory.</code> という警告が出ていると思う． これは当然ながらGemini CLIがホームディレクトリにいると， コンピュータ上のかなりのものにアクセスできてしまうので， 万が一AIが変な操作を提案してきてそれにOKしてしまったらコンピュータが壊れかねない． もちろん<code>cd プロジェクトフォルダ</code>してから呼び出してもいいが， VSCodeでプロジェクトのフォルダを開いてからVSCode上のターミナルでGemini CLIを呼び出すのが， VSCode上で完結するし快適だと思う．</p>
-<p>　終了したい時は<code>/quit</code>である．他にも<code>/</code>から色々選べる．</p>
+<p>　終了したい時は<code>/quit</code>である．他にも<code>/</code>から色々選べる．また，予想以上に重い処理で途中で停止したい時は<code>control + C</code> (cancel)である．</p>
 <p>　さて，ではVSCodeでフォルダを開いたら， まずはGEMINI.mdというファイルを作成し，ここにGeminiへの指示を書いていこう． Gemini CLIは普通に使うとログが残らないので，どんな指示を出したのか記録しておくのは大切である．<span class="citation" data-cites="GEMINI">(<a href="#ref-GEMINI" role="doc-biblioref">nwiizo 2025</a>)</span> 何も固くなる必要はなく，普通にチャットで出すような指示をそのまま書いておくのでも十分である． その後ターミナルを開いて<code>gemini</code>を実行するとGEMINI.mdを読み込んだ状態でGemini CLIが起動する． そのファイルに従って実行しろと命令すれば良い．そのあとは，ちょっとしたことならそのままプロンプトで指示を出しても良いが，指示内容に関わることならGEMINI.mdを書き直して，<code>/memory refresh</code>でGEMINI.mdを再度読み込ませるのが良いだろう．</p>
 </section>
 <section id="gpt-oss" class="level1">

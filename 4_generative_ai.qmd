@@ -59,7 +59,7 @@ npmはNode Package Manager，-gは--globalである．
 VSCodeでプロジェクトのフォルダを開いてからVSCode上のターミナルでGemini CLIを呼び出すのが，
 VSCode上で完結するし快適だと思う．
 
-　終了したい時は`/quit`である．他にも`/`から色々選べる．
+　終了したい時は`/quit`である．他にも`/`から色々選べる．また，予想以上に重い処理で途中で停止したい時は`control + C` (cancel)である．
 
 
 　さて，ではVSCodeでフォルダを開いたら，
