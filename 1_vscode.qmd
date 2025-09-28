@@ -311,7 +311,7 @@ ssh -T github.com
 brew install --cask mactex-no-gui
 ```
 
-　次にpackageをupdateしておく. 
+　次にpackageをupdateしておく.
 ```zsh
 sudo tlmgr update --self --all
 ```
@@ -341,14 +341,17 @@ nano ~/.latexmkrc
 　また，VSCodeはdefaultでコンパイルのオプションが色々用意されており(サイドバーから`TeX` をクリックし，「コマンド」を展開して，「LaTeXプロジェクトをビルド」を展開すると，レシピというのがずらっと確認できる．)，何も指定せずに単にコンパイルした場合は一番上のレシピに従ってコンパイルされる．defaultだと一番上はdefaultのlatexmkを使用したコンパイルになっており，せっかくさっき作成した.latexmkrcを参照してくれない．
 
 　以上を踏まえて，私は次のように書いた．
-```json
+```zsh
 {
     // 1秒後にオートセーブする
     "files.autoSave": "afterDelay",
 
+    // 長い文章を折り返し表示する．
+    "editor.wordWrap": "on",
+
     // オートコンパイルをオフにする
     "latex-workshop.latex.autoBuild.run": "never",
-    
+
     // コンパイル時にlatexmkrcを使用する
     "latex-workshop.latex.recipe.default": "latexmk (latexmkrc)",
 }

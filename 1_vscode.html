@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.33">
+<meta name="generator" content="quarto-1.7.34">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -2235,7 +2235,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2025年9月9日</p>
+      <p class="date">2025年9月28日</p>
     </div>
   </div>
   
@@ -2480,16 +2480,19 @@ Note
 <p>　auto saveに関してはafterDelay(一定時間後に自動保存)というオプションがあり，defaultでは1000ミリ秒後, つまり1秒後にオートセーブされる．他の値にしたいときは<code>&quot;files.autoSaveDelay&quot;: 5000,</code> のように追記する．手動で保存するには<code>command</code> + <code>S</code> (saveのS)である．afterDelay以外のオプションもあるがここでは割愛．auto buildに関してはOnFileChangeの他にonSave(保存時に自動コンパイル)とneverがある．TeXShopと同じにしたいならauto saveはafterDelayでauto buildはneverにすれば良い．</p>
 <p>　また，VSCodeはdefaultでコンパイルのオプションが色々用意されており(サイドバーから<code>TeX</code> をクリックし，「コマンド」を展開して，「LaTeXプロジェクトをビルド」を展開すると，レシピというのがずらっと確認できる．)，何も指定せずに単にコンパイルした場合は一番上のレシピに従ってコンパイルされる．defaultだと一番上はdefaultのlatexmkを使用したコンパイルになっており，せっかくさっき作成した.latexmkrcを参照してくれない．</p>
 <p>　以上を踏まえて，私は次のように書いた．</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    <span class="er">//</span> <span class="er">1秒後にオートセーブする</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;files.autoSave&quot;</span><span class="fu">:</span> <span class="st">&quot;afterDelay&quot;</span><span class="fu">,</span></span>
+<div class="sourceCode" id="cb37"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">{</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">//</span> 1秒後にオートセーブする</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;files.autoSave&quot;</span><span class="ex">:</span> <span class="st">&quot;afterDelay&quot;</span>,</span>
 <span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    <span class="er">//</span> <span class="er">オートコンパイルをオフにする</span></span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;latex-workshop.latex.autoBuild.run&quot;</span><span class="fu">:</span> <span class="st">&quot;never&quot;</span><span class="fu">,</span></span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>    <span class="er">//</span> <span class="er">コンパイル時にlatexmkrcを使用する</span></span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;latex-workshop.latex.recipe.default&quot;</span><span class="fu">:</span> <span class="st">&quot;latexmk (latexmkrc)&quot;</span><span class="fu">,</span></span>
-<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    <span class="ex">//</span> 長い文章を折り返し表示する．</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;editor.wordWrap&quot;</span><span class="ex">:</span> <span class="st">&quot;on&quot;</span>,</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>    <span class="ex">//</span> オートコンパイルをオフにする</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;latex-workshop.latex.autoBuild.run&quot;</span><span class="ex">:</span> <span class="st">&quot;never&quot;</span>,</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>    <span class="ex">//</span> コンパイル時にlatexmkrcを使用する</span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;latex-workshop.latex.recipe.default&quot;</span><span class="ex">:</span> <span class="st">&quot;latexmk (latexmkrc)&quot;</span>,</span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>　正式には最後はカンマをつけないのだが，つけても問題なく動く．</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
