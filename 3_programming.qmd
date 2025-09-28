@@ -43,7 +43,7 @@ zshで`jula`を実行してもjuliaという対話環境が開けるが，先ほ
 　緑三角のコンパイルボタンを押すと.jlファイル全体のコードをまとめて実行してくれ，また`Shift` + `Enter`でカーソルのある行のコードだけを実行して次の行に移ることができる．Julia REPLにベタ打ちしてEnterで実行することもできる．先ほどは`> Julia: Start REPL`からJulia REPLを開いたが，コードを実行するとJulia REPLは自動で開く．(ただし一度閉じてしまった場合は，上の検索窓から`> Julia: Start REPL`で開く必要がある．)
 
 　好みの問題だが，私はコードの右端に出るミニマップが邪魔だったので，settings.jsonに
-```json
+```zsh
 // (カーソルを合わせない限り)ミニマップを非表示にする
 "editor.minimap.autohide": "mouseover",
 ```

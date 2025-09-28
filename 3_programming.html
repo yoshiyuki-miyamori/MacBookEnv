@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.33">
+<meta name="generator" content="quarto-1.7.34">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -2368,7 +2368,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2025年9月24日</p>
+      <p class="date">2025年9月28日</p>
     </div>
   </div>
   
@@ -2406,13 +2406,13 @@ Note
 </div>
 <p>　緑三角のコンパイルボタンを押すと.jlファイル全体のコードをまとめて実行してくれ，また<code>Shift</code> + <code>Enter</code>でカーソルのある行のコードだけを実行して次の行に移ることができる．Julia REPLにベタ打ちしてEnterで実行することもできる．先ほどは<code>&gt; Julia: Start REPL</code>からJulia REPLを開いたが，コードを実行するとJulia REPLは自動で開く．(ただし一度閉じてしまった場合は，上の検索窓から<code>&gt; Julia: Start REPL</code>で開く必要がある．)</p>
 <p>　好みの問題だが，私はコードの右端に出るミニマップが邪魔だったので，settings.jsonに</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="er">//</span> <span class="er">(カーソルを合わせない限り)ミニマップを非表示にする</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="er">&quot;editor.minimap.autohide&quot;:</span> <span class="er">&quot;mouseover&quot;,</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">//</span> <span class="pp">(</span><span class="ss">カーソルを合わせない限り</span><span class="pp">)</span>ミニマップを非表示にする</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;editor.minimap.autohide&quot;</span><span class="ex">:</span> <span class="st">&quot;mouseover&quot;</span>,</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>を追加した．これでマウスを右端に持って来た時にだけミニマップが表示される．defaultだと<code>none</code>に設定されており，他にも<code>scroll</code>というオプションもある．</p>
 <p>　パッケージを追加したい場合は<code>]</code>でpackageプロンプトに変更し，<code>add パッケージ名</code>で追加できる．また，<code>rm パッケージ名</code>で削除できる(rmはremove)．使う時はREPLで<code>using パッケージ名</code>を実行すると使えるようになる．packageプロンプトで<code>st</code>(あるいは<code>status</code>)と入力するとinstalled packages一覧が表示される．</p>
 <p>　例えば乱数を生成するときは，再現性を担保するためにseedを指定しておくことが望ましい．Juliaの場合は</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Random</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">Random</span>.<span class="fu">seed!</span>(<span class="fl">123</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">Random</span>.<span class="fu">seed!</span>(<span class="fl">123</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>のようにしておくと良いだろう．数字はなんでも良い．また，Random.jlは標準ライブラリに入っているのでinstallする必要はない．</p>
 <p>　準備は大体こんなところである．Juliaのコードの書き方は，例えばネットで公開されているEcoSta2025の資料(3章まで<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>)などを参照されたい． (GitHub: <a href="https://github.com/mattiasvillani/Julia4Stats" class="uri">https://github.com/mattiasvillani/Julia4Stats</a>, Web: <a href="https://mattiasvillani.com/Julia4Stats/" class="uri">https://mattiasvillani.com/Julia4Stats/</a>)</p>
 <p>わからないコードはCopilot(か私)に聞けばわかるはず．</p>
@@ -2512,10 +2512,11 @@ Note
 </section>
 <section id="便利な拡張機能" class="level1">
 <h1>便利な拡張機能</h1>
-<p>まずこの3つは必須だと思う．</p>
+<p>まずこの4つは必須だと思う．</p>
 <ul>
 <li>indent-rainbow: インデントが見やすくなる．また，変なサイズのインデントを赤色で教えてくれる．</li>
 <li>Trailing Spaces: 行末の不要なスペースを赤色で教えてくれる．</li>
+<li>Zenkaku: 全角スペースを教えてくれる．</li>
 <li>Error Lens: エラーや警告をコードに直接表示してくれる．</li>
 </ul>
 <p>次に，自動でフォーマットを整えてくれる拡張機能もある．必要に応じて入れてほしい．</p>
@@ -2523,6 +2524,11 @@ Note
 <li>Prettier: HTMLやMarkdown, JavaScriptなどのWeb系のコードを自動で整形してくれる．(プログラミング言語は対象外)</li>
 <li>Ruff: Pythonのコードを整形してくれる．</li>
 </ul>
+<p>他にも例えばこんなものもある．</p>
+<ul>
+<li>txt syntax: .txtファイルを色分けしてくれる．</li>
+</ul>
+<p>何か不便だと思った時は，大体の場合それを解決する拡張機能があるので検索したりAIに聞いたりしてみよう．</p>
 </section>
 <section id="githubによるwebサイトの作り方" class="level1">
 <h1>GitHubによるWebサイトの作り方</h1>
