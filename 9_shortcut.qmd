@@ -79,6 +79,8 @@ Dockからいらないものを消す．
 - `command + backspace` : ゴミ箱に入れる (まさかゴミ箱までドラッグ&ドロップしてないですよね?)
 - `command + P` : 印刷(Print)
 - `command + D` : 複製(Duplicate)
+- `command + I` : 情報を見る(Information)
+- `Enter` : 名前を変更
 
 
 ## アプリ操作
